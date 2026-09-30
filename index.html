@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Instituto Elo Animal: ONG de proteção animal e Saúde Única que oferece castração gratuita, clínica veterinária social, educação e adoção responsável.">
+  <title>Instituto Elo Animal | Cuidar dos animais é cuidar da comunidade</title>
+  <!-- Ícones: SVG para navegadores modernos, PNG como alternativa e para a tela inicial do iPhone -->
+  <link rel="icon" href="img/logo-elo-animal.svg" type="image/svg+xml">
+  <link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <!-- Link de atalho: quem navega pelo teclado pula direto para o conteúdo -->
+  <a class="pular-link" href="#conteudo">Pular para o conteúdo principal</a>
+
+  <!-- Cabeçalho: identidade da ONG + menu principal -->
+  <header class="topo">
+    <div class="container topo__conteudo">
+      <a class="marca" href="index.html">
+        <!-- alt vazio: a imagem é decorativa, pois o nome da ONG já está escrito ao lado -->
+        <img src="img/logo-elo-animal.svg" alt="" width="48" height="48">
+        <span class="marca__nome">Instituto Elo Animal</span>
+      </a>
+      <nav class="menu" aria-label="Menu principal">
+        <ul class="menu__lista">
+          <li><a href="index.html" aria-current="page">Início</a></li>
+          <li><a href="projetos.html">Projetos</a></li>
+          <li><a class="menu__destaque" href="cadastro.html">Cadastre-se</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo principal (único por página) -->
+  <main id="conteudo">
+
+    <!-- Apresentação (hero): único h1 da página -->
+    <section class="destaque" aria-labelledby="titulo-principal">
+      <div class="container destaque__grade">
+        <div class="destaque__texto">
+          <p class="selo">ONG de proteção animal e Saúde Única</p>
+          <h1 id="titulo-principal">Cuidar dos animais é cuidar da comunidade</h1>
+          <p>O Instituto Elo Animal une medicina veterinária, educação e voluntariado para garantir saúde e dignidade a cães e gatos de famílias em situação de vulnerabilidade e, assim, proteger também a saúde das pessoas.</p>
+          <p class="destaque__acoes">
+            <a class="botao" href="cadastro.html">Quero ajudar</a>
+            <a class="botao botao--contorno" href="projetos.html">Conheça os projetos</a>
+          </p>
+        </div>
+        <img class="destaque__imagem" src="img/ilustracao-saude-unica.svg" alt="Ilustração de uma voluntária de jaleco e estetoscópio acariciando um cachorro caramelo, ao lado de um gato cinza, com corações no ar e casas de um bairro ao fundo." width="560" height="420">
+      </div>
+    </section>
+
+    <!-- Seção institucional: quem somos, missão, visão e valores -->
+    <section id="quem-somos" class="secao" aria-labelledby="titulo-quem-somos">
+      <div class="container">
+        <h2 id="titulo-quem-somos">Quem somos</h2>
+        <p class="secao__intro">Somos uma organização sem fins lucrativos criada em 2018 por médicas-veterinárias, estudantes e moradores do Bairro Esperança. Atuamos com base no conceito de <strong>Saúde Única</strong>: a saúde dos animais, das pessoas e do ambiente está conectada. Por isso, cada castração, consulta ou palestra também previne doenças que afetam a comunidade.</p>
+        <div class="grade grade--3">
+          <div class="cartao">
+            <h3>Missão</h3>
+            <p>Promover o bem-estar de cães e gatos e a saúde da comunidade por meio de atendimento veterinário acessível, educação e adoção responsável.</p>
+          </div>
+          <div class="cartao">
+            <h3>Visão</h3>
+            <p>Ser referência regional em proteção animal com impacto social: bairros sem abandono e tutores bem informados.</p>
+          </div>
+          <div class="cartao">
+            <h3>Valores</h3>
+            <ul>
+              <li>Respeito à vida em todas as formas</li>
+              <li>Transparência na gestão dos recursos</li>
+              <li>Ciência e ética no cuidado</li>
+              <li>Acolhimento sem julgamentos</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Indicadores de impacto: o elemento data guarda o número em formato legível por máquinas -->
+    <section id="impacto" class="secao secao--suave" aria-labelledby="titulo-impacto">
+      <div class="container">
+        <h2 id="titulo-impacto">Nosso impacto em 2025</h2>
+        <ul class="numeros">
+          <li><strong><data value="1240">1.240</data></strong> castrações gratuitas</li>
+          <li><strong><data value="3150">3.150</data></strong> atendimentos veterinários sociais</li>
+          <li><strong><data value="386">386</data></strong> adoções responsáveis</li>
+          <li><strong><data value="42">42</data></strong> escolas com palestras educativas</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Formas de ajudar: cada article é um bloco independente -->
+    <section id="como-ajudar" class="secao" aria-labelledby="titulo-como-ajudar">
+      <div class="container">
+        <h2 id="titulo-como-ajudar">Como ajudar</h2>
+        <div class="grade grade--3">
+          <article class="cartao cartao--acao">
+            <h3>Seja voluntário</h3>
+            <p>Doe algumas horas por semana nos mutirões, nas feiras de adoção, nas escolas ou na comunicação da ONG.</p>
+            <a href="cadastro.html">Quero ser voluntário</a>
+          </article>
+          <article class="cartao cartao--acao">
+            <h3>Faça uma doação</h3>
+            <p>Com R$ 30 por mês você custeia a vacinação de um animal resgatado. Aceitamos doações únicas ou mensais.</p>
+            <a href="cadastro.html">Quero doar</a>
+          </article>
+          <article class="cartao cartao--acao">
+            <h3>Adote ou seja lar temporário</h3>
+            <p>Todos os animais são entregues castrados, vacinados e vermifugados, com acompanhamento após a adoção.</p>
+            <a href="projetos.html#adote-um-amigo">Conhecer o projeto</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conteúdo complementar: chamada para o próximo evento -->
+    <aside class="aviso" aria-labelledby="titulo-evento">
+      <div class="container aviso__conteudo">
+        <h2 id="titulo-evento">Próximo mutirão de castração</h2>
+        <p><time datetime="2026-10-17T08:00">17 de outubro de 2026, a partir das 8h</time>, na sede do Instituto. Atendimento gratuito para famílias inscritas no CadÚnico.</p>
+        <a class="botao botao--claro" href="cadastro.html">Quero ser voluntário no mutirão</a>
+      </div>
+    </aside>
+
+    <!-- Transparência: como os recursos são aplicados -->
+    <section id="transparencia" class="secao secao--suave" aria-labelledby="titulo-transparencia">
+      <div class="container">
+        <h2 id="titulo-transparencia">Transparência</h2>
+        <p class="secao__intro">Publicamos todo ano o relatório de atividades e a prestação de contas aprovada em assembleia. Veja como cada R$ 100 doados foram aplicados em 2025:</p>
+        <ul class="recursos">
+          <li><strong>R$ 62</strong> em castrações, consultas e medicamentos</li>
+          <li><strong>R$ 18</strong> em ração e abrigo para animais resgatados</li>
+          <li><strong>R$ 12</strong> em educação e materiais para as escolas</li>
+          <li><strong>R$ 8</strong> em custos administrativos</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contato: dados organizados no elemento address -->
+    <section id="contato" class="secao" aria-labelledby="titulo-contato">
+      <div class="container">
+        <h2 id="titulo-contato">Fale conosco</h2>
+        <div class="grade grade--2">
+          <address class="contato">
+            <p><strong>Sede e clínica social</strong><br>
+              Rua das Acácias, 250 – Bairro Esperança<br>
+              Fortaleza – CE, CEP 60000-000</p>
+            <p><strong>Telefone:</strong> <a href="tel:+558500000000">(85) 0000-0000</a></p>
+            <p><strong>E-mail:</strong> <a href="mailto:contato@institutoeloanimal.org.br">contato@institutoeloanimal.org.br</a></p>
+          </address>
+          <div class="contato">
+            <p><strong>Horário de atendimento</strong><br>
+              Segunda a sexta, das 8h às 17h<br>
+              Sábados, das 8h às 12h</p>
+            <p>Encontrou um animal ferido ou em situação de maus-tratos? Ligue para nós ou procure o órgão ambiental do seu município.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Rodapé: informações institucionais repetidas em todas as páginas -->
+  <footer class="rodape">
+    <div class="container rodape__conteudo">
+      <div>
+        <p class="rodape__marca">Instituto Elo Animal</p>
+        <p>Proteção animal e Saúde Única desde 2018.</p>
+      </div>
+      <address>
+        Rua das Acácias, 250 – Fortaleza – CE<br>
+        <a href="tel:+558500000000">(85) 0000-0000</a><br>
+        <a href="mailto:contato@institutoeloanimal.org.br">contato@institutoeloanimal.org.br</a>
+      </address>
+      <p>Atendimento: seg. a sex., 8h–17h<br>Sábados, 8h–12h</p>
+      <nav aria-label="Links rápidos">
+        <ul class="rodape__links">
+          <li><a href="index.html#quem-somos">Quem somos</a></li>
+          <li><a href="projetos.html">Projetos</a></li>
+          <li><a href="cadastro.html">Cadastre-se</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p class="container rodape__aviso"><small>&copy; 2026 Instituto Elo Animal. ONG fictícia criada para fins acadêmicos (Experiência Prática I – Desenvolvimento Front-end para Web). Dados de contato ilustrativos.</small></p>
+  </footer>
+</body>
+</html>
