@@ -1,0 +1,76 @@
+<!-- View: Transparência (rota #/transparencia) – controlador: js/paginas/transparencia.js
+     Gráficos feitos com a biblioteca externa Chart.js (carregada só nesta página).
+     Cada gráfico tem uma tabela com os mesmos dados: alternativa acessível e
+     plano B caso a biblioteca não carregue. -->
+
+<section class="cabecalho-pagina" aria-labelledby="titulo-pagina">
+  <div class="container">
+    <nav class="migalhas" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="#/">Início</a></li>
+        <li><span aria-current="page">Transparência</span></li>
+      </ol>
+    </nav>
+    <h1 id="titulo-pagina">Transparência</h1>
+    <p class="secao__intro">Publicamos todo ano o relatório de atividades e a prestação de contas aprovada em assembleia. Veja como os recursos foram aplicados e como os atendimentos cresceram.</p>
+  </div>
+</section>
+
+<p class="container aviso-grafico" role="status" data-status-grafico></p>
+
+<section class="secao" aria-labelledby="titulo-aplicacao">
+  <div class="container grade grafico-bloco">
+    <div class="col-lg-5">
+      <h2 id="titulo-aplicacao" data-titulo-aplicacao>Como cada R$ 100 foram aplicados</h2>
+      <p>Para cada R$ 100 recebidos, a maior parte vai direto para o atendimento dos animais. Os custos administrativos ficam abaixo de 10%.</p>
+      <div class="tabela-rolagem" role="region" aria-labelledby="legenda-aplicacao" tabindex="0">
+        <table class="tabela tabela--compacta">
+          <caption id="legenda-aplicacao">Aplicação de cada R$ 100 doados</caption>
+          <thead>
+            <tr>
+              <th scope="col">Destino</th>
+              <th scope="col">Valor</th>
+            </tr>
+          </thead>
+          <tbody data-tabela-aplicacao></tbody>
+        </table>
+      </div>
+    </div>
+    <figure class="grafico col-lg-7">
+      <div class="grafico__area">
+        <canvas role="img" aria-label="Gráfico de rosca da aplicação dos recursos" data-grafico-aplicacao></canvas>
+      </div>
+      <figcaption>Gráfico de rosca com a divisão dos recursos. Os mesmos valores estão na tabela.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="secao secao--suave" aria-labelledby="titulo-evolucao">
+  <div class="container">
+    <h2 id="titulo-evolucao">Atendimentos de 2021 a 2025</h2>
+    <p>Castrações, atendimentos na Clínica Social e adoções por ano.</p>
+    <figure class="grafico">
+      <div class="grafico__area grafico__area--larga">
+        <canvas role="img" aria-label="Gráfico de barras dos atendimentos por ano" data-grafico-historico></canvas>
+      </div>
+      <figcaption>Gráfico de barras com a evolução anual dos atendimentos.</figcaption>
+    </figure>
+    <details class="detalhes-tabela" data-detalhes-historico>
+      <summary>Ver os dados do gráfico em tabela</summary>
+      <div class="tabela-rolagem" role="region" aria-labelledby="legenda-historico" tabindex="0">
+        <table class="tabela">
+          <caption id="legenda-historico">Atendimentos por ano</caption>
+          <thead>
+            <tr>
+              <th scope="col">Ano</th>
+              <th scope="col">Castrações</th>
+              <th scope="col">Atendimentos na clínica</th>
+              <th scope="col">Adoções</th>
+            </tr>
+          </thead>
+          <tbody data-tabela-historico></tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+</section>
