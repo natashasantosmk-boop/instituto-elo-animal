@@ -92,7 +92,8 @@ export function criarRoteador({ rotas, rotaNaoEncontrada, saida, preparar = null
   function marcarLinksAtivos(caminho) {
     document.querySelectorAll('a[data-rota]').forEach((link) => {
       const rota = link.dataset.rota;
-      const ativo = rota === '/' ? caminho === '/' : caminho === rota || caminho.startsWith(`${rota}/`);
+      const ativo = caminho !== null
+        && (rota === '/' ? caminho === '/' : caminho === rota || caminho.startsWith(`${rota}/`));
       if (ativo) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
@@ -201,7 +202,7 @@ export function criarRoteador({ rotas, rotaNaoEncontrada, saida, preparar = null
 
       const titulo = resultado.titulo || rota.titulo;
       document.title = caminho === '/' ? TITULO_INICIAL : `${titulo} | ${NOME_DO_SITE}`;
-      marcarLinksAtivos(caminho);
+      marcarLinksAtivos(rota === rotaNaoEncontrada ? null : caminho); // na 404, nenhum item fica ativo
       posicionar(secaoPedida || consulta.get('secao'));
       emitir('rota:alterada', { caminho, titulo });
     } catch (erro) {
