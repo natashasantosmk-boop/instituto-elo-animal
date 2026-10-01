@@ -1,0 +1,11 @@
+{
+  "name": "instituto-elo-animal",
+  "version": "2.0.0",
+  "description": "SPA do Instituto Elo Animal – Experiência Prática III de Desenvolvimento Front-end para Web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve -l 5500 .",
+    "test": "node --test testes/unidade/"
+  }
+}
