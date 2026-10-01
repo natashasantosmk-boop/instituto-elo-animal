@@ -1,0 +1,195 @@
+/* ==========================================================
+   Instituto Elo Animal – layout.css
+   Estrutura macro da página: container, GRID DE 12 COLUNAS,
+   seções e a disposição de cada página.
+   Mobile-first + 5 breakpoints:
+     sm 36rem (576px) · md 48rem (768px) · lg 62rem (992px)
+     xl 75rem (1200px) · xxl 90rem (1440px)
+   ========================================================== */
+
+/* ---------- Esqueleto da página: cabeçalho, conteúdo e rodapé ---------- */
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* o rodapé fica sempre no fim da tela */
+  grid-template-columns: minmax(0, 1fr); /* conteúdo largo (tabela) não alarga a página */
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--largura-container);
+  margin-inline: auto;
+  padding-inline: var(--espaco-3);
+}
+
+/* ---------- Grid de 12 colunas ---------- */
+.grade {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--espaco-4);
+}
+
+/* Mobile-first: todo item ocupa as 12 colunas até receber outra classe */
+.grade > * {
+  grid-column: span 12;
+}
+
+/* ---------- Seções ---------- */
+.secao {
+  padding-block: var(--espaco-6);
+}
+
+.secao--suave {
+  background-color: var(--cor-primaria-100);
+}
+
+.secao__intro {
+  max-width: 48rem;
+  font-size: var(--fonte-tamanho-3);
+  color: var(--cor-neutra-600);
+}
+
+/* ---------- Página inicial: área de destaque (hero) ---------- */
+.destaque {
+  padding-block: var(--espaco-6);
+  background: linear-gradient(135deg, var(--cor-primaria-100) 0%, var(--cor-secundaria-100) 100%);
+}
+
+.destaque__grade {
+  align-items: center;
+}
+
+.destaque__imagem {
+  width: 100%;
+  max-width: 35rem;
+  justify-self: center;
+}
+
+/* ---------- Cabeçalho das páginas internas ---------- */
+.cabecalho-pagina {
+  padding-block: var(--espaco-5);
+  background: linear-gradient(135deg, var(--cor-primaria-100) 0%, var(--cor-secundaria-100) 100%);
+}
+
+/* ---------- Projetos: título, figura e texto em zigue-zague ---------- */
+.lista-projetos {
+  padding-block: var(--espaco-3) var(--espaco-5);
+}
+
+.projeto {
+  padding-block: var(--espaco-6);
+  border-bottom: var(--borda-fina);
+  row-gap: var(--espaco-3);
+}
+
+.projeto:last-child {
+  border-bottom: 0;
+}
+
+/* ---------- Cadastro: formulário + coluna lateral ---------- */
+.cadastro {
+  padding-block: var(--espaco-5) var(--espaco-6);
+  align-items: start;
+}
+
+/* ==========================================================
+   1º breakpoint – sm (≥ 576 px): celulares grandes
+   ========================================================== */
+@media (min-width: 36rem) {
+  .col-sm-6 { grid-column: span 6; }
+
+  .container {
+    padding-inline: var(--espaco-4);
+  }
+}
+
+/* ==========================================================
+   2º breakpoint – md (≥ 768 px): tablets em pé
+   ========================================================== */
+@media (min-width: 48rem) {
+  .col-md-4 { grid-column: span 4; }
+  .col-md-5 { grid-column: span 5; }
+  .col-md-6 { grid-column: span 6; }
+  .col-md-7 { grid-column: span 7; }
+  .col-md-8 { grid-column: span 8; }
+
+  .secao {
+    padding-block: var(--espaco-7);
+  }
+
+  /* Projetos: título e texto à direita, figura à esquerda… */
+  .projeto {
+    column-gap: var(--espaco-6);
+    align-items: start;
+  }
+
+  .projeto > .projeto__titulo,
+  .projeto > .projeto__texto {
+    grid-column: 6 / span 7;
+  }
+
+  .projeto > .projeto__figura {
+    grid-column: 1 / span 5;
+    grid-row: 1 / span 2;
+  }
+
+  /* …e nos projetos pares a figura vai para a direita */
+  .projeto:nth-child(even) > .projeto__titulo,
+  .projeto:nth-child(even) > .projeto__texto {
+    grid-column: 1 / span 7;
+  }
+
+  .projeto:nth-child(even) > .projeto__figura {
+    grid-column: 8 / span 5;
+  }
+}
+
+/* ==========================================================
+   3º breakpoint – lg (≥ 992 px): tablets deitados e notebooks
+   ========================================================== */
+@media (min-width: 62rem) {
+  .col-lg-3 { grid-column: span 3; }
+  .col-lg-4 { grid-column: span 4; }
+  .col-lg-6 { grid-column: span 6; }
+  .col-lg-8 { grid-column: span 8; }
+
+  /* A coluna lateral do cadastro acompanha a rolagem */
+  .cadastro__lateral {
+    position: sticky;
+    top: var(--espaco-4);
+  }
+}
+
+/* ==========================================================
+   4º breakpoint – xl (≥ 1200 px): desktops
+   ========================================================== */
+@media (min-width: 75rem) {
+  .container {
+    padding-inline: var(--espaco-5);
+  }
+
+  .destaque {
+    padding-block: var(--espaco-7);
+  }
+
+  .grade {
+    gap: var(--espaco-5);
+  }
+}
+
+/* ==========================================================
+   5º breakpoint – xxl (≥ 1440 px): telas panorâmicas
+   ========================================================== */
+@media (min-width: 90rem) {
+  :root {
+    --largura-container: 82.5rem; /* 1320 px: aproveita a largura extra */
+  }
+
+  .secao {
+    padding-block: var(--espaco-8);
+  }
+
+  .destaque__imagem {
+    max-width: 40rem;
+  }
+}
