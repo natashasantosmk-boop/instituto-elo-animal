@@ -1,0 +1,58 @@
+/* ==========================================================
+   Instituto Elo Animal – utilitarios.css
+   Classes utilitárias de propósito único. São carregadas por
+   último para poder ajustar qualquer componente sem criar
+   regras novas (por isso algumas usam !important).
+   ========================================================== */
+
+/* Esconde da tela, mas mantém o texto para leitores de tela */
+.visualmente-oculto {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Elementos que só funcionam com JavaScript (ex.: botões que abrem modais) */
+html:not(.js) .so-com-js {
+  display: none !important;
+}
+
+/* Largura confortável para leitura (cerca de 70 caracteres por linha) */
+.largura-leitura {
+  max-width: 48rem;
+}
+
+.texto-centro {
+  text-align: center !important;
+}
+
+.texto-suave {
+  color: var(--cor-neutra-600) !important;
+}
+
+/* Espaçamentos pontuais, sempre com os tokens da escala */
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.mt-4 {
+  margin-top: var(--espaco-4) !important;
+}
+
+.mt-5 {
+  margin-top: var(--espaco-5) !important;
+}
+
+.mb-5 {
+  margin-bottom: var(--espaco-5) !important;
+}
