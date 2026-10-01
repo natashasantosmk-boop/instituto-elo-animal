@@ -1,0 +1,1598 @@
+/* ==========================================================
+   Instituto Elo Animal – componentes.css
+   Componentes visuais reutilizáveis (nomes no padrão BEM:
+   bloco__elemento--modificador). O alinhamento interno de
+   cada componente é feito com FLEXBOX; as cores, fontes e
+   medidas vêm sempre das variáveis de variaveis.css.
+   ========================================================== */
+
+/* ==========================================================
+   1. Link "Pular para o conteúdo"
+   ========================================================== */
+.pular-link {
+  position: absolute;
+  left: var(--espaco-3);
+  top: calc(-1 * var(--espaco-7));
+  z-index: var(--camada-toast);
+  padding: var(--espaco-3) var(--espaco-4);
+  background-color: var(--cor-primaria-700);
+  color: var(--cor-branca);
+  font-weight: var(--fonte-peso-forte);
+  border-radius: 0 0 var(--raio-medio) var(--raio-medio);
+}
+
+.pular-link:focus {
+  top: 0;
+  color: var(--cor-branca);
+}
+
+/* ==========================================================
+   2. Cabeçalho e navegação principal
+   ========================================================== */
+.topo {
+  position: relative; /* referência para o painel do menu no celular */
+  z-index: var(--camada-menu);
+  background-color: var(--cor-branca);
+  border-bottom: var(--borda-fina);
+  box-shadow: var(--sombra-1);
+}
+
+/* Flexbox: logotipo à esquerda e menu à direita, centralizados na vertical */
+.topo__conteudo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2) var(--espaco-4);
+  min-height: 4.5rem;
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-3);
+  min-height: var(--altura-toque-minima);
+  color: var(--cor-primaria-700);
+  text-decoration: none;
+}
+
+.marca:hover {
+  color: var(--cor-primaria-500);
+}
+
+.marca img {
+  flex: none;
+}
+
+.marca__nome {
+  font-size: var(--fonte-tamanho-2);
+  font-weight: var(--fonte-peso-forte);
+  line-height: var(--altura-linha-titulo);
+}
+
+/* ---------- Botão hambúrguer: só existe no celular e com JavaScript ativo ---------- */
+.menu__botao {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-2);
+  min-height: var(--altura-toque-minima);
+  padding: var(--espaco-2) var(--espaco-3);
+  border: 2px solid var(--cor-primaria-500);
+  border-radius: var(--raio-medio);
+  background-color: transparent;
+  color: var(--cor-primaria-700);
+  font: inherit;
+  font-weight: var(--fonte-peso-forte);
+  cursor: pointer;
+  transition: background-color var(--transicao);
+}
+
+.menu__botao:hover,
+.menu__botao[aria-expanded="true"] {
+  background-color: var(--cor-primaria-100);
+}
+
+.js .menu__botao {
+  display: inline-flex;
+}
+
+/* Três linhas desenhadas com CSS; viram um "X" quando o menu abre */
+.menu__icone,
+.menu__icone::before,
+.menu__icone::after {
+  display: block;
+  width: 1.25rem;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 2px;
+  transition: transform var(--transicao), background-color var(--transicao);
+}
+
+.menu__icone {
+  position: relative;
+}
+
+.menu__icone::before,
+.menu__icone::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.menu__icone::before {
+  top: -6px;
+}
+
+.menu__icone::after {
+  top: 6px;
+}
+
+.menu__botao[aria-expanded="true"] .menu__icone {
+  background-color: transparent;
+}
+
+.menu__botao[aria-expanded="true"] .menu__icone::before {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu__botao[aria-expanded="true"] .menu__icone::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ---------- Lista do menu ---------- */
+.menu__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Sem JavaScript, o menu aparece aberto e quebra a linha quando falta espaço */
+html:not(.js) .topo__conteudo {
+  flex-wrap: wrap;
+}
+
+html:not(.js) .menu__lista {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* Celular com JavaScript: o menu vira um painel que desce abaixo do cabeçalho */
+.js .menu__lista {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: calc(100vh - 4.5rem);
+  overflow-y: auto;
+  padding: var(--espaco-3);
+  background-color: var(--cor-branca);
+  border-bottom: var(--borda-fina);
+  box-shadow: var(--sombra-2);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--espaco-2)));
+  transition: opacity var(--transicao), transform var(--transicao), visibility var(--transicao);
+}
+
+.js .menu__botao[aria-expanded="true"] + .menu__lista {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+.menu__item {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.menu__link {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-height: var(--altura-toque-minima);
+  padding: var(--espaco-2) var(--espaco-3);
+  border-radius: var(--raio-medio);
+  color: var(--cor-neutra-900);
+  font-weight: var(--fonte-peso-medio);
+  text-decoration: none;
+  transition: background-color var(--transicao), color var(--transicao);
+}
+
+.menu__link:hover {
+  background-color: var(--cor-primaria-100);
+  color: var(--cor-primaria-700);
+}
+
+/* Página atual: sublinhado grosso (a cor não é o único indicador) */
+.menu__link[aria-current="page"] {
+  color: var(--cor-primaria-700);
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.45em;
+}
+
+.menu__link--destaque {
+  justify-content: center;
+  background-color: var(--cor-secundaria-500);
+  color: var(--cor-branca);
+}
+
+.menu__link--destaque:hover,
+.menu__link--destaque[aria-current="page"] {
+  background-color: var(--cor-secundaria-700);
+  color: var(--cor-branca);
+}
+
+/* ---------- Submenu "Projetos" (dropdown no padrão disclosure) ---------- */
+.submenu__botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--altura-toque-minima);
+  height: var(--altura-toque-minima);
+  padding: 0;
+  border: 0;
+  border-radius: var(--raio-medio);
+  background-color: transparent;
+  color: var(--cor-primaria-700);
+  cursor: pointer;
+  transition: background-color var(--transicao);
+}
+
+.submenu__botao:hover,
+.submenu__botao[aria-expanded="true"] {
+  background-color: var(--cor-primaria-100);
+}
+
+/* Seta desenhada com duas bordas; gira 180° quando o submenu abre */
+.submenu__botao::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--transicao);
+}
+
+.submenu__botao[aria-expanded="true"]::before {
+  transform: translateY(2px) rotate(225deg);
+}
+
+/* Sem JavaScript o botão não funcionaria, então ele some e o submenu fica visível */
+html:not(.js) .submenu__botao {
+  display: none;
+}
+
+.submenu {
+  flex-basis: 100%;
+  margin: 0;
+  padding: 0 0 0 var(--espaco-4);
+  list-style: none;
+}
+
+.js .submenu {
+  display: none;
+}
+
+.js .submenu__botao[aria-expanded="true"] + .submenu {
+  display: block;
+}
+
+.submenu a {
+  display: flex;
+  align-items: center;
+  min-height: var(--altura-toque-minima);
+  padding: var(--espaco-1) var(--espaco-3);
+  border-radius: var(--raio-medio);
+  color: var(--cor-neutra-900);
+  text-decoration: none;
+  transition: background-color var(--transicao), color var(--transicao);
+}
+
+.submenu a:hover {
+  background-color: var(--cor-primaria-100);
+  color: var(--cor-primaria-700);
+}
+
+/* ---------- Trilha de navegação (breadcrumb) ---------- */
+.migalhas ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-1) var(--espaco-2);
+  margin: 0 0 var(--espaco-3);
+  padding: 0;
+  list-style: none;
+  font-size: var(--fonte-tamanho-1);
+  color: var(--cor-neutra-600);
+}
+
+.migalhas li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-2);
+}
+
+/* Separador desenhado com bordas: não é lido pelos leitores de tela */
+.migalhas li + li::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.migalhas a {
+  color: var(--cor-primaria-700);
+}
+
+.migalhas [aria-current="page"] {
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-neutra-900);
+}
+
+/* ---------- Sumário interno (atalhos em formato de pílula) ---------- */
+.sumario ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2);
+  margin: var(--espaco-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sumario a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--altura-toque-minima);
+  padding: var(--espaco-1) var(--espaco-3);
+  border: 1px solid var(--cor-primaria-500);
+  border-radius: var(--raio-pilula);
+  background-color: var(--cor-branca);
+  font-weight: var(--fonte-peso-medio);
+  text-decoration: none;
+  transition: background-color var(--transicao), color var(--transicao);
+}
+
+.sumario a:hover {
+  background-color: var(--cor-primaria-500);
+  color: var(--cor-branca);
+}
+
+/* ==========================================================
+   3. Botões e estados (hover, active, focus, disabled, carregando)
+   ========================================================== */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-2);
+  min-height: var(--altura-toque-minima);
+  padding: var(--espaco-2) var(--espaco-4);
+  border: 2px solid var(--cor-primaria-500);
+  border-radius: var(--raio-medio);
+  background-color: var(--cor-primaria-500);
+  color: var(--cor-branca);
+  font: inherit;
+  font-weight: var(--fonte-peso-forte);
+  line-height: var(--altura-linha-titulo);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transicao), border-color var(--transicao), color var(--transicao), transform var(--transicao), box-shadow var(--transicao);
+}
+
+.botao:hover {
+  background-color: var(--cor-primaria-700);
+  border-color: var(--cor-primaria-700);
+  color: var(--cor-branca);
+  box-shadow: var(--sombra-1);
+}
+
+/* Clique: o botão "afunda" 1 px */
+.botao:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.botao--secundario {
+  background-color: var(--cor-secundaria-500);
+  border-color: var(--cor-secundaria-500);
+}
+
+.botao--secundario:hover {
+  background-color: var(--cor-secundaria-700);
+  border-color: var(--cor-secundaria-700);
+}
+
+.botao--contorno {
+  background-color: transparent;
+  color: var(--cor-primaria-500);
+}
+
+.botao--contorno:hover {
+  background-color: var(--cor-primaria-100);
+  color: var(--cor-primaria-700);
+}
+
+.botao--claro {
+  background-color: var(--cor-branca);
+  border-color: var(--cor-branca);
+  color: var(--cor-primaria-700);
+}
+
+.botao--claro:hover {
+  background-color: var(--cor-primaria-100);
+  border-color: var(--cor-primaria-100);
+  color: var(--cor-primaria-700);
+}
+
+/* Ações destrutivas (ex.: apagar os dados do formulário) */
+.botao--perigo {
+  background-color: var(--cor-erro-500);
+  border-color: var(--cor-erro-500);
+}
+
+.botao--perigo:hover {
+  background-color: var(--cor-neutra-900);
+  border-color: var(--cor-neutra-900);
+}
+
+/* Versão compacta: menos espaço interno, mas a mesma área de toque de 44 px */
+.botao--pequeno {
+  padding: var(--espaco-1) var(--espaco-3);
+  font-size: var(--fonte-tamanho-1);
+}
+
+.botao:disabled,
+.botao[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Carregando: texto "Enviando..." + círculo girando; cliques bloqueados */
+.botao--carregando {
+  pointer-events: none;
+}
+
+.botao--carregando::after {
+  content: "";
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: girar 700ms linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Grupo de botões: lado a lado, quebrando a linha quando falta espaço */
+.grupo-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-3);
+}
+
+/* Botão com aparência de link (abre a Política de Privacidade) */
+.link-botao {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--altura-toque-minima);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--cor-primaria-500);
+  font: inherit;
+  font-weight: var(--fonte-peso-medio);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.link-botao:hover {
+  color: var(--cor-primaria-700);
+}
+
+/* ==========================================================
+   4. Selo, etiquetas (badges) e números de destaque
+   ========================================================== */
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  padding: var(--espaco-1) var(--espaco-3);
+  border-radius: var(--raio-pilula);
+  background-color: var(--cor-branca);
+  color: var(--cor-primaria-700);
+  font-size: var(--fonte-tamanho-1);
+  font-weight: var(--fonte-peso-forte);
+}
+
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2);
+  margin: 0 0 var(--espaco-3);
+}
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--espaco-2);
+  border-radius: var(--raio-pilula);
+  background-color: var(--cor-primaria-100);
+  color: var(--cor-primaria-700);
+  font-size: var(--fonte-tamanho-1);
+  font-weight: var(--fonte-peso-forte);
+  line-height: var(--altura-linha-texto);
+}
+
+.etiqueta--secundaria {
+  background-color: var(--cor-secundaria-100);
+  color: var(--cor-secundaria-700);
+}
+
+.etiqueta--info {
+  background-color: var(--cor-info-100);
+  color: var(--cor-info-500);
+}
+
+.etiqueta--alerta {
+  background-color: var(--cor-alerta-100);
+  color: var(--cor-alerta-700);
+}
+
+.numeros {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.numeros li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espaco-4) var(--espaco-3);
+  background-color: var(--cor-branca);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-1);
+  text-align: center;
+}
+
+.numeros strong {
+  font-size: var(--fonte-tamanho-5);
+  line-height: var(--altura-linha-titulo);
+  color: var(--cor-primaria-500);
+}
+
+.numeros--secundario strong {
+  color: var(--cor-secundaria-500);
+}
+
+/* ==========================================================
+   5. Cartões
+   ========================================================== */
+.cartao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-3);
+  padding: var(--espaco-4);
+  background-color: var(--cor-branca);
+  border: var(--borda-fina);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-1);
+  transition: transform var(--transicao), box-shadow var(--transicao), border-color var(--transicao);
+}
+
+.cartao h3,
+.cartao h4,
+.cartao p,
+.cartao ul {
+  margin: 0;
+}
+
+.cartao ul {
+  padding-left: 1.2rem;
+}
+
+/* Cartão clicável: o cartão inteiro é a área de clique do link (ver .cartao__link) */
+.cartao--interativo {
+  position: relative;
+}
+
+.cartao--interativo:hover,
+.cartao--interativo:focus-within {
+  transform: translateY(calc(-1 * var(--espaco-1)));
+  border-color: var(--cor-primaria-500);
+  box-shadow: var(--sombra-2);
+}
+
+/* Imagem: vem depois do título no HTML (leitura lógica), mas aparece no topo com order */
+.cartao__imagem {
+  order: -2;
+  margin: calc(-1 * var(--espaco-4)) calc(-1 * var(--espaco-4)) 0;
+  overflow: hidden;
+  border-radius: var(--raio-grande) var(--raio-grande) 0 0;
+  background-color: var(--cor-primaria-100);
+}
+
+.cartao__imagem img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  transition: transform 400ms ease;
+}
+
+.cartao--interativo:hover .cartao__imagem img,
+.cartao--interativo:focus-within .cartao__imagem img {
+  transform: scale(1.05);
+}
+
+/* Etiquetas do cartão: aparecem logo abaixo da imagem */
+.cartao__topo {
+  order: -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+}
+
+/* margin-top: auto empurra o rodapé para o fim: os cartões da mesma linha ficam alinhados */
+.cartao__rodape {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-2);
+  margin-top: auto;
+  padding-top: var(--espaco-2);
+}
+
+.cartao__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  min-height: var(--altura-toque-minima);
+  font-weight: var(--fonte-peso-forte);
+}
+
+/* Seta desenhada com bordas (não é lida pelo leitor de tela) */
+.cartao__link::after {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--transicao);
+}
+
+.cartao--interativo:hover .cartao__link::after,
+.cartao__link:focus-visible::after {
+  transform: translateX(var(--espaco-1)) rotate(45deg);
+}
+
+/* "Link esticado": uma camada invisível cobre o cartão e leva o clique ao link */
+.cartao--interativo .cartao__link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  border-radius: var(--raio-grande);
+}
+
+/* Campanhas de doação: rótulo + barra de progresso */
+.campanha label {
+  font-weight: var(--fonte-peso-forte);
+}
+
+/* ==========================================================
+   6. Barra de progresso e tabela
+   ========================================================== */
+progress {
+  width: 100%;
+  height: 0.75rem;
+  border: 0;
+  border-radius: var(--raio-pilula);
+  background-color: var(--cor-neutra-200);
+  overflow: hidden;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--cor-neutra-200);
+  border-radius: var(--raio-pilula);
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--cor-secundaria-500);
+  border-radius: var(--raio-pilula);
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--cor-secundaria-500);
+  border-radius: var(--raio-pilula);
+}
+
+.tabela-rolagem {
+  overflow-x: auto;
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-1);
+}
+
+.tabela {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  background-color: var(--cor-branca);
+}
+
+.tabela caption {
+  padding: var(--espaco-3);
+  text-align: left;
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-neutra-600);
+  background-color: var(--cor-branca);
+}
+
+.tabela th,
+.tabela td {
+  padding: var(--espaco-3);
+  text-align: left;
+  border-bottom: var(--borda-fina);
+}
+
+.tabela thead th {
+  background-color: var(--cor-primaria-500);
+  color: var(--cor-branca);
+}
+
+.tabela tbody tr:nth-child(even) {
+  background-color: var(--cor-neutra-50);
+}
+
+.tabela tbody tr:hover {
+  background-color: var(--cor-primaria-100);
+}
+
+/* ==========================================================
+   7. Passo a passo (lista ordenada com números em círculos)
+   ========================================================== */
+.passos {
+  margin: 0 0 var(--espaco-5);
+  padding: 0;
+  list-style: none;
+  counter-reset: passo;
+}
+
+.passos li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  padding: var(--espaco-4);
+  background-color: var(--cor-branca);
+  border: var(--borda-fina);
+  border-radius: var(--raio-grande);
+  counter-increment: passo;
+}
+
+.passos li::before {
+  content: counter(passo);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--cor-primaria-500);
+  color: var(--cor-branca);
+  font-weight: var(--fonte-peso-forte);
+}
+
+.passos strong {
+  color: var(--cor-primaria-700);
+}
+
+/* ==========================================================
+   8. Projetos (página projetos.html)
+   ========================================================== */
+.projeto__titulo {
+  margin: 0;
+}
+
+.projeto__figura {
+  margin: 0;
+}
+
+.projeto__figura img {
+  width: 100%;
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-1);
+}
+
+.projeto__figura figcaption {
+  margin-top: var(--espaco-2);
+  font-size: var(--fonte-tamanho-1);
+  color: var(--cor-neutra-600);
+}
+
+.projeto__texto ul {
+  padding-left: 1.2rem;
+}
+
+/* ==========================================================
+   9. Formulários: campos, estados de validação e mensagens
+   ========================================================== */
+.formulario {
+  padding: var(--espaco-3);
+  background-color: var(--cor-branca);
+  border: var(--borda-fina);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-1);
+}
+
+.obrigatorio {
+  color: var(--cor-erro-500);
+  font-weight: var(--fonte-peso-forte);
+}
+
+.grupo {
+  min-width: 0;
+  margin: 0 0 var(--espaco-4);
+  padding: var(--espaco-3);
+  border: var(--borda-fina);
+  border-radius: var(--raio-grande);
+}
+
+.grupo > legend {
+  padding-inline: var(--espaco-2);
+  font-size: var(--fonte-tamanho-3);
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-primaria-700);
+}
+
+.subgrupo {
+  min-width: 0;
+  margin: 0 0 var(--espaco-4);
+  padding: 0;
+  border: 0;
+}
+
+.subgrupo > legend {
+  margin-bottom: var(--espaco-2);
+  padding: 0;
+  font-weight: var(--fonte-peso-medio);
+}
+
+.campos {
+  row-gap: var(--espaco-3);
+}
+
+/* Cada campo empilha rótulo, entrada, dica e mensagem de erro com Flexbox */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-1);
+}
+
+.campo > label {
+  font-weight: var(--fonte-peso-medio);
+}
+
+.dica {
+  font-size: var(--fonte-tamanho-1);
+  color: var(--cor-neutra-600);
+}
+
+/* ---------- Entradas de texto, listas e áreas de texto ---------- */
+/* Seletores simples (especificidade baixa): os estados abaixo conseguem sobrescrever */
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: var(--altura-toque-minima);
+  padding: var(--espaco-2) var(--espaco-3);
+  font: inherit;
+  color: var(--cor-neutra-900);
+  background-color: var(--cor-branca);
+  border: 2px solid var(--cor-neutra-400);
+  border-radius: var(--raio-medio);
+  transition: border-color var(--transicao), background-color var(--transicao), box-shadow var(--transicao);
+}
+
+textarea {
+  resize: vertical;
+}
+
+::placeholder {
+  color: var(--cor-neutra-600);
+  opacity: 1;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: var(--cor-primaria-500);
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  border-color: var(--cor-primaria-500);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 4px var(--cor-primaria-100);
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: var(--cor-neutra-50);
+  border-color: var(--cor-neutra-200);
+  cursor: not-allowed;
+}
+
+/* Inválido: :user-invalid só age depois que a pessoa mexe no campo;
+   aria-invalid é marcado pelo JavaScript ao conferir o campo */
+input:user-invalid,
+select:user-invalid,
+textarea:user-invalid,
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--cor-erro-500);
+  background-color: var(--cor-erro-100);
+}
+
+/* Válido e preenchido: borda verde e ícone de confirmação em SVG */
+.campo--valido input,
+.campo--valido select,
+.campo--valido textarea {
+  border-color: var(--cor-primaria-500);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='%230b6e4f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--espaco-3) center;
+  background-size: 1.1rem;
+  padding-right: var(--espaco-6);
+}
+
+.campo--valido select {
+  background-position: right var(--espaco-5) center;
+}
+
+.campo--valido textarea {
+  background-position: right var(--espaco-3) top var(--espaco-3);
+}
+
+/* Mensagem de erro: ícone + texto (a cor nunca informa sozinha) */
+.campo__erro {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-2);
+  margin: 0;
+  font-size: var(--fonte-tamanho-1);
+  font-weight: var(--fonte-peso-medio);
+  color: var(--cor-erro-500);
+}
+
+.campo__erro:empty {
+  display: none;
+}
+
+.campo__erro::before {
+  content: "";
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background-color: var(--cor-erro-500);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 4v5' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='11.8' r='1.2' fill='%23fff'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 0.8rem;
+}
+
+/* ---------- Radios e caixas de seleção ---------- */
+.opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-3) var(--espaco-4);
+}
+
+/* Muitas opções: viram uma grade que se ajusta à largura disponível */
+.opcoes--grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(14rem, 100%), 1fr));
+}
+
+.opcao {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-2);
+}
+
+/* Radios e caixas usam o desenho nativo: desfaz as medidas dos campos de texto */
+.opcao input {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  min-height: 0;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  accent-color: var(--cor-primaria-500);
+  cursor: pointer;
+}
+
+.opcao label {
+  cursor: pointer;
+}
+
+/* Opção marcada fica em destaque */
+.opcao input:checked + label {
+  font-weight: var(--fonte-peso-medio);
+  color: var(--cor-primaria-700);
+}
+
+.formulario__acoes {
+  margin-top: var(--espaco-4);
+}
+
+/* ==========================================================
+   10. Alertas contextuais (mensagens fixas na página)
+   ========================================================== */
+.alerta {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-3);
+  margin: 0 0 var(--espaco-4);
+  padding: var(--espaco-3) var(--espaco-4);
+  border-left: 5px solid var(--cor-info-500);
+  border-radius: var(--raio-medio);
+  background-color: var(--cor-info-100);
+  color: var(--cor-neutra-900);
+}
+
+/* Ícone em SVG: indica o tipo do alerta sem depender só da cor */
+.alerta::before {
+  content: "";
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--cor-info-500);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 7v5' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='4.5' r='1.2' fill='%23fff'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+}
+
+.alerta:focus {
+  outline: 3px solid var(--cor-secundaria-500);
+  outline-offset: 3px;
+}
+
+.alerta__conteudo > :last-child {
+  margin-bottom: 0;
+}
+
+.alerta__titulo {
+  display: block;
+  margin-bottom: var(--espaco-1);
+  font-weight: var(--fonte-peso-forte);
+}
+
+.alerta ul {
+  margin: var(--espaco-2) 0 0;
+  padding-left: 1.2rem;
+}
+
+.alerta--sucesso {
+  border-left-color: var(--cor-primaria-500);
+  background-color: var(--cor-primaria-100);
+}
+
+.alerta--sucesso::before {
+  background-color: var(--cor-primaria-500);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.alerta--aviso {
+  border-left-color: var(--cor-alerta-700);
+  background-color: var(--cor-alerta-100);
+}
+
+.alerta--aviso::before {
+  background-color: var(--cor-alerta-700);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 4v5' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='11.8' r='1.2' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.alerta--erro {
+  border-left-color: var(--cor-erro-500);
+  background-color: var(--cor-erro-100);
+}
+
+.alerta--erro::before {
+  background-color: var(--cor-erro-500);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5 5l6 6M11 5l-6 6' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.alerta--erro a {
+  color: var(--cor-erro-500);
+  font-weight: var(--fonte-peso-medio);
+}
+
+/* Alerta que acaba de aparecer desliza suavemente */
+.alerta[tabindex="-1"]:not([hidden]) {
+  animation: deslizar 300ms ease-out;
+}
+
+/* ==========================================================
+   11. Janela modal (elemento dialog)
+   ========================================================== */
+.modal {
+  width: calc(100% - 2 * var(--espaco-3));
+  max-width: 36rem;
+  max-height: calc(100% - 2 * var(--espaco-5));
+  padding: 0;
+  border: 0;
+  border-radius: var(--raio-grande);
+  background-color: var(--cor-branca);
+  color: var(--cor-neutra-900);
+  box-shadow: var(--sombra-2);
+}
+
+/* Aberta, a modal vira uma coluna flex: só o corpo rola quando o texto é longo */
+.modal[open] {
+  display: flex;
+  flex-direction: column;
+  animation: surgir 250ms ease-out;
+}
+
+.modal::backdrop {
+  background-color: rgba(16, 35, 29, 0.6);
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(var(--espaco-3)) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.modal__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  padding: var(--espaco-3) var(--espaco-4);
+  border-bottom: var(--borda-fina);
+}
+
+.modal__cabecalho h2 {
+  margin: 0;
+  font-size: var(--fonte-tamanho-3);
+}
+
+.modal__corpo {
+  overflow-y: auto;
+  padding: var(--espaco-4);
+}
+
+.modal__corpo > :last-child {
+  margin-bottom: 0;
+}
+
+.modal__corpo ul {
+  padding-left: 1.2rem;
+}
+
+.modal__rodape {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--espaco-3);
+  margin: 0;
+  padding: var(--espaco-3) var(--espaco-4);
+  border-top: var(--borda-fina);
+  background-color: var(--cor-neutra-50);
+}
+
+.modal__fechar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--altura-toque-minima);
+  height: var(--altura-toque-minima);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--cor-neutra-600);
+  font-size: var(--fonte-tamanho-4);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--transicao), color var(--transicao);
+}
+
+.modal__fechar:hover {
+  background-color: var(--cor-neutra-50);
+  color: var(--cor-neutra-900);
+}
+
+/* Com a modal aberta, a página de fundo não rola */
+.modal-aberto {
+  overflow: hidden;
+}
+
+/* ==========================================================
+   12. Toast (notificação temporária no canto da tela)
+   ========================================================== */
+.toast-area {
+  position: fixed;
+  right: var(--espaco-3);
+  bottom: var(--espaco-3);
+  left: var(--espaco-3);
+  z-index: var(--camada-toast);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--espaco-2);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-3);
+  padding: var(--espaco-2) var(--espaco-2) var(--espaco-2) var(--espaco-4);
+  border-left: 5px solid var(--cor-foco-escuro);
+  border-radius: var(--raio-medio);
+  background-color: var(--cor-neutra-900);
+  color: var(--cor-branca);
+  box-shadow: var(--sombra-2);
+  pointer-events: auto;
+  animation: deslizar 300ms ease-out;
+}
+
+.toast--saindo {
+  animation: sumir 250ms ease-in forwards;
+}
+
+.toast__texto {
+  flex: 1;
+  margin: 0;
+}
+
+.toast__fechar {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--altura-toque-minima);
+  height: var(--altura-toque-minima);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--cor-branca);
+  font-size: var(--fonte-tamanho-3);
+  cursor: pointer;
+}
+
+.toast__fechar:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.toast :focus-visible {
+  outline-color: var(--cor-foco-escuro);
+}
+
+@keyframes deslizar {
+  from {
+    opacity: 0;
+    transform: translateY(var(--espaco-3));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sumir {
+  to {
+    opacity: 0;
+    transform: translateY(var(--espaco-2));
+  }
+}
+
+/* ==========================================================
+   13. Perguntas frequentes (details/summary como acordeão)
+   ========================================================== */
+.acordeao {
+  border-top: var(--borda-fina);
+}
+
+.acordeao details {
+  border-bottom: var(--borda-fina);
+}
+
+.acordeao summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  min-height: var(--altura-toque-minima);
+  padding: var(--espaco-2) 0;
+  font-weight: var(--fonte-peso-medio);
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--transicao);
+}
+
+.acordeao summary:hover {
+  color: var(--cor-primaria-700);
+}
+
+.acordeao summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Sinal de "+" feito com dois gradientes; vira "−" quando a resposta abre */
+.acordeao summary::after {
+  content: "";
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  background-image: linear-gradient(var(--cor-primaria-500), var(--cor-primaria-500)), linear-gradient(var(--cor-primaria-500), var(--cor-primaria-500));
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 2px, 2px 100%;
+  transition: background-size var(--transicao);
+}
+
+.acordeao details[open] summary::after {
+  background-size: 100% 2px, 2px 0;
+}
+
+.acordeao details p {
+  margin: 0 0 var(--espaco-3);
+  color: var(--cor-neutra-600);
+}
+
+/* ==========================================================
+   14. Faixa de aviso, coluna lateral e rodapé
+   ========================================================== */
+.aviso {
+  padding-block: var(--espaco-6);
+  background-color: var(--cor-primaria-700);
+  color: var(--cor-branca);
+}
+
+.aviso h2 {
+  color: var(--cor-branca);
+}
+
+.aviso :focus-visible,
+.rodape :focus-visible {
+  outline-color: var(--cor-foco-escuro);
+}
+
+.aviso__conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espaco-2);
+}
+
+.aviso__conteudo h2,
+.aviso__conteudo p {
+  margin: 0;
+}
+
+.aviso__conteudo p {
+  max-width: 44rem;
+}
+
+.aviso__conteudo .botao {
+  margin-top: var(--espaco-2);
+}
+
+.cadastro__lateral {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-3);
+  padding: var(--espaco-4);
+  background-color: var(--cor-primaria-100);
+  border-radius: var(--raio-grande);
+}
+
+.cadastro__lateral h2 {
+  margin: 0;
+  font-size: var(--fonte-tamanho-3);
+}
+
+.cadastro__lateral ul,
+.cadastro__lateral p {
+  margin: 0;
+}
+
+.cadastro__lateral ul {
+  padding-left: 1.2rem;
+}
+
+.cadastro__lateral li + li {
+  margin-top: var(--espaco-2);
+}
+
+.rodape {
+  padding-top: var(--espaco-6);
+  background-color: #10231d;
+  color: #e6efe9;
+}
+
+.rodape a {
+  color: #bfe6d3;
+}
+
+.rodape a:hover {
+  color: var(--cor-branca);
+}
+
+.rodape .grade p,
+.rodape address {
+  margin: 0;
+}
+
+.rodape__marca {
+  margin-bottom: var(--espaco-1);
+  font-size: var(--fonte-tamanho-3);
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-branca);
+}
+
+.rodape__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rodape__aviso {
+  margin: var(--espaco-5) auto 0;
+  padding-block: var(--espaco-4);
+  border-top: 1px solid #2c4a3f;
+  color: #c5d6ce;
+}
+
+/* ==========================================================
+   Breakpoints dos componentes (mesmos valores do layout.css)
+   ========================================================== */
+
+/* sm (≥ 576 px): nome da ONG maior e toast só no canto direito */
+@media (min-width: 36rem) {
+  .marca__nome {
+    font-size: var(--fonte-tamanho-3);
+  }
+
+  .toast-area {
+    left: auto;
+    width: 24rem;
+  }
+
+  .formulario,
+  .grupo {
+    padding: var(--espaco-4);
+  }
+}
+
+/* md (≥ 768 px): menu horizontal, sem hambúrguer, e submenu suspenso (dropdown) */
+@media (min-width: 48rem) {
+  .js .menu__botao {
+    display: none;
+  }
+
+  .menu__lista,
+  .js .menu__lista {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    max-height: none;
+    overflow: visible;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    box-shadow: none;
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
+  .menu__item {
+    flex-wrap: nowrap;
+  }
+
+  .submenu,
+  .js .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: var(--camada-menu);
+    display: block;
+    min-width: 16rem;
+    padding: var(--espaco-2);
+    background-color: var(--cor-branca);
+    border: var(--borda-fina);
+    border-radius: var(--raio-medio);
+    box-shadow: var(--sombra-2);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(var(--espaco-2));
+    transition: opacity var(--transicao), transform var(--transicao), visibility var(--transicao);
+  }
+
+  /* Abre pelo botão (teclado e toque) ou ao passar o mouse sobre "Projetos" */
+  .js .submenu__botao[aria-expanded="true"] + .submenu,
+  .menu__item--submenu:hover > .submenu,
+  html:not(.js) .menu__item--submenu:focus-within > .submenu {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* lg (≥ 992 px): formulário com mais respiro */
+@media (min-width: 62rem) {
+  .formulario {
+    padding: var(--espaco-5);
+  }
+}
+
+/* xl (≥ 1200 px): cartões com mais espaço interno */
+@media (min-width: 75rem) {
+  .cartao {
+    padding: var(--espaco-5);
+  }
+
+  .cartao__imagem {
+    margin: calc(-1 * var(--espaco-5)) calc(-1 * var(--espaco-5)) 0;
+  }
+}
+
+/* xxl (≥ 1440 px): toast um pouco mais largo */
+@media (min-width: 90rem) {
+  .toast-area {
+    width: 28rem;
+  }
+}

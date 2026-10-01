@@ -1,0 +1,88 @@
+/* ==========================================================
+   Instituto Elo Animal – variaveis.css
+   DESIGN SYSTEM: todos os "tokens" visuais do projeto.
+   Os outros arquivos CSS usam apenas estas variáveis; para
+   mudar uma cor, fonte ou medida, basta alterar aqui.
+   ========================================================== */
+
+:root {
+  /* ---------- Cores primárias (verde: saúde, natureza, confiança) ---------- */
+  --cor-primaria-700: #08513a;
+  --cor-primaria-500: #0b6e4f;
+  --cor-primaria-100: #e9f4ef;
+
+  /* ---------- Cores secundárias (terracota: acolhimento e ações principais) ---------- */
+  --cor-secundaria-700: #8f3907;
+  --cor-secundaria-500: #b4480a;
+  --cor-secundaria-100: #fdf1e6;
+
+  /* ---------- Cores neutras ---------- */
+  --cor-neutra-900: #1d2a26; /* texto principal (14:1 sobre o fundo) */
+  --cor-neutra-600: #4a5a55; /* texto de apoio (6,9:1) */
+  --cor-neutra-400: #7b8c86; /* bordas de campos (3,5:1) */
+  --cor-neutra-200: #cfd8d3; /* divisórias */
+  --cor-neutra-50: #fbf8f3;  /* fundo da página */
+  --cor-branca: #ffffff;
+
+  /* ---------- Cores de feedback ---------- */
+  --cor-erro-500: #b42318;
+  --cor-erro-100: #fdecea;
+  --cor-alerta-700: #7a4d00;
+  --cor-alerta-100: #fff4d6;
+  --cor-info-500: #1a5fb4;
+  --cor-info-100: #e8f0fb;
+  --cor-foco-escuro: #ffd166; /* anel de foco sobre fundos escuros */
+
+  /* ---------- Tipografia (escala modular 1,25 a partir de 16 px) ---------- */
+  --fonte-familia: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fonte-tamanho-1: 0.8rem;   /* 12,8 px – legendas e notas */
+  --fonte-tamanho-2: 1rem;     /* 16 px – corpo do texto */
+  --fonte-tamanho-3: 1.25rem;  /* 20 px – h3 e destaques */
+  --fonte-tamanho-4: 1.563rem; /* 25 px – h2 no celular */
+  --fonte-tamanho-5: 1.953rem; /* 31 px – h2 no desktop e h1 no celular */
+  --fonte-tamanho-6: 2.441rem; /* 39 px – h1 no desktop */
+  --fonte-peso-normal: 400;
+  --fonte-peso-medio: 600;
+  --fonte-peso-forte: 700;
+  --altura-linha-texto: 1.6;
+  --altura-linha-titulo: 1.2;
+
+  /* ---------- Espaçamentos (escala de 8 px com meio passo de 4 px) ---------- */
+  --espaco-1: 0.25rem; /* 4 px */
+  --espaco-2: 0.5rem;  /* 8 px */
+  --espaco-3: 1rem;    /* 16 px */
+  --espaco-4: 1.5rem;  /* 24 px */
+  --espaco-5: 2rem;    /* 32 px */
+  --espaco-6: 3rem;    /* 48 px */
+  --espaco-7: 4rem;    /* 64 px */
+  --espaco-8: 6rem;    /* 96 px */
+
+  /* ---------- Bordas, sombras e movimento ---------- */
+  --raio-pequeno: 4px;
+  --raio-medio: 8px;
+  --raio-grande: 12px;
+  --raio-pilula: 999px;
+  --borda-fina: 1px solid var(--cor-neutra-200);
+  --sombra-1: 0 2px 8px rgba(16, 35, 29, 0.08);
+  --sombra-2: 0 12px 28px rgba(16, 35, 29, 0.16);
+  --transicao: 200ms ease;
+
+  /* ---------- Camadas (z-index) ---------- */
+  --camada-menu: 100;
+  --camada-modal: 1000;
+  --camada-toast: 1100;
+
+  /* ---------- Medidas de layout ---------- */
+  --largura-container: 75rem;   /* 1200 px */
+  --altura-toque-minima: 44px;  /* área mínima de toque (WCAG 2.5.5) */
+
+  /*
+   * Breakpoints (mobile-first). Variáveis CSS não funcionam dentro de @media,
+   * por isso os valores ficam documentados aqui e são repetidos nas consultas:
+   *   sm  = 36rem  (576 px)  celulares grandes
+   *   md  = 48rem  (768 px)  tablets em pé
+   *   lg  = 62rem  (992 px)  tablets deitados e notebooks
+   *   xl  = 75rem  (1200 px) desktops
+   *   xxl = 90rem  (1440 px) telas panorâmicas
+   */
+}
