@@ -1,0 +1,137 @@
+/* ==========================================================
+   Instituto Elo Animal – base.css
+   Estilos globais dos elementos HTML (sem classes):
+   reset leve, tipografia, links, imagens e foco.
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Quem pede menos movimento no sistema não vê animações */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte-familia);
+  font-size: var(--fonte-tamanho-2);
+  font-weight: var(--fonte-peso-normal);
+  line-height: var(--altura-linha-texto);
+  color: var(--cor-neutra-900);
+  background-color: var(--cor-neutra-50);
+  overflow-wrap: break-word; /* e-mails e palavras longas não estouram a tela */
+}
+
+/* ---------- Títulos: hierarquia da escala tipográfica ---------- */
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 var(--espaco-3);
+  line-height: var(--altura-linha-titulo);
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-primaria-700);
+}
+
+h1 {
+  font-size: var(--fonte-tamanho-5);
+}
+
+h2 {
+  font-size: var(--fonte-tamanho-4);
+}
+
+h3 {
+  font-size: var(--fonte-tamanho-3);
+}
+
+h4 {
+  font-size: var(--fonte-tamanho-2);
+}
+
+p {
+  margin: 0 0 var(--espaco-3);
+}
+
+small {
+  font-size: var(--fonte-tamanho-1);
+}
+
+ul,
+ol {
+  margin: 0 0 var(--espaco-3);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--cor-primaria-500);
+  text-underline-offset: 0.2em;
+  transition: color var(--transicao);
+}
+
+a:hover {
+  color: var(--cor-primaria-700);
+}
+
+/* Foco bem visível para quem navega pelo teclado */
+:focus-visible {
+  outline: 3px solid var(--cor-secundaria-500);
+  outline-offset: 3px;
+}
+
+::selection {
+  background-color: var(--cor-primaria-100);
+  color: var(--cor-primaria-700);
+}
+
+address {
+  font-style: normal;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Respiro acima do bloco quando a página rola até uma âncora (#id) */
+section[id],
+article[id] {
+  scroll-margin-top: var(--espaco-4);
+}
+
+/* ---------- Títulos crescem nas telas grandes (breakpoint xl) ---------- */
+@media (min-width: 75rem) {
+  h1 {
+    font-size: var(--fonte-tamanho-6);
+  }
+
+  h2 {
+    font-size: var(--fonte-tamanho-5);
+  }
+}
