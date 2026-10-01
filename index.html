@@ -9,13 +9,21 @@
   <link rel="icon" href="img/logo-elo-animal.svg" type="image/svg+xml">
   <link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-  <link rel="stylesheet" href="css/estilo.css">
+  <!-- Design system em camadas: tokens > base > layout > componentes > utilitários -->
+  <link rel="stylesheet" href="css/variaveis.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/componentes.css">
+  <link rel="stylesheet" href="css/utilitarios.css">
+  <!-- Avisa ao CSS que o JavaScript está ativo (o menu só é recolhido se o botão funcionar) -->
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="js/interface.js" defer></script>
 </head>
 <body>
   <!-- Link de atalho: quem navega pelo teclado pula direto para o conteúdo -->
   <a class="pular-link" href="#conteudo">Pular para o conteúdo principal</a>
 
-  <!-- Cabeçalho: identidade da ONG + menu principal -->
+  <!-- Cabeçalho: identidade da ONG + menu principal responsivo -->
   <header class="topo">
     <div class="container topo__conteudo">
       <a class="marca" href="index.html">
@@ -24,10 +32,26 @@
         <span class="marca__nome">Instituto Elo Animal</span>
       </a>
       <nav class="menu" aria-label="Menu principal">
-        <ul class="menu__lista">
-          <li><a href="index.html" aria-current="page">Início</a></li>
-          <li><a href="projetos.html">Projetos</a></li>
-          <li><a class="menu__destaque" href="cadastro.html">Cadastre-se</a></li>
+        <!-- Botão hambúrguer: aparece só no celular; aria-expanded informa se o menu está aberto -->
+        <button class="menu__botao" type="button" aria-expanded="false" aria-controls="menu-lista">
+          <span class="menu__icone" aria-hidden="true"></span>
+          Menu
+        </button>
+        <ul class="menu__lista" id="menu-lista">
+          <li class="menu__item"><a class="menu__link" href="index.html" aria-current="page">Início</a></li>
+          <li class="menu__item menu__item--submenu">
+            <a class="menu__link" href="projetos.html">Projetos</a>
+            <button class="submenu__botao" type="button" aria-expanded="false" aria-controls="submenu-projetos">
+              <span class="visualmente-oculto">Mostrar a lista de projetos</span>
+            </button>
+            <ul class="submenu" id="submenu-projetos">
+              <li><a href="projetos.html#castracao-solidaria">Castração Solidária</a></li>
+              <li><a href="projetos.html#clinica-social">Clínica Veterinária Social</a></li>
+              <li><a href="projetos.html#educar-para-cuidar">Educar para Cuidar</a></li>
+              <li><a href="projetos.html#adote-um-amigo">Adote um Amigo</a></li>
+            </ul>
+          </li>
+          <li class="menu__item"><a class="menu__link menu__link--destaque" href="cadastro.html">Cadastre-se</a></li>
         </ul>
       </nav>
     </div>
@@ -36,19 +60,19 @@
   <!-- Conteúdo principal (único por página) -->
   <main id="conteudo">
 
-    <!-- Apresentação (hero): único h1 da página -->
+    <!-- Apresentação (hero): grade de 12 colunas, texto em 7 e ilustração em 5 -->
     <section class="destaque" aria-labelledby="titulo-principal">
-      <div class="container destaque__grade">
-        <div class="destaque__texto">
+      <div class="container grade destaque__grade">
+        <div class="col-md-7">
           <p class="selo">ONG de proteção animal e Saúde Única</p>
           <h1 id="titulo-principal">Cuidar dos animais é cuidar da comunidade</h1>
-          <p>O Instituto Elo Animal une medicina veterinária, educação e voluntariado para garantir saúde e dignidade a cães e gatos de famílias em situação de vulnerabilidade e, assim, proteger também a saúde das pessoas.</p>
-          <p class="destaque__acoes">
-            <a class="botao" href="cadastro.html">Quero ajudar</a>
+          <p class="secao__intro">O Instituto Elo Animal une medicina veterinária, educação e voluntariado para garantir saúde e dignidade a cães e gatos de famílias em situação de vulnerabilidade e, assim, proteger também a saúde das pessoas.</p>
+          <div class="grupo-botoes">
+            <a class="botao botao--secundario" href="cadastro.html">Quero ajudar</a>
             <a class="botao botao--contorno" href="projetos.html">Conheça os projetos</a>
-          </p>
+          </div>
         </div>
-        <img class="destaque__imagem" src="img/ilustracao-saude-unica.svg" alt="Ilustração de uma voluntária de jaleco e estetoscópio acariciando um cachorro caramelo, ao lado de um gato cinza, com corações no ar e casas de um bairro ao fundo." width="560" height="420">
+        <img class="destaque__imagem col-md-5" src="img/ilustracao-saude-unica.svg" alt="Ilustração de uma voluntária de jaleco e estetoscópio acariciando um cachorro caramelo, ao lado de um gato cinza, com corações no ar e casas de um bairro ao fundo." width="560" height="420">
       </div>
     </section>
 
@@ -57,16 +81,16 @@
       <div class="container">
         <h2 id="titulo-quem-somos">Quem somos</h2>
         <p class="secao__intro">Somos uma organização sem fins lucrativos criada em 2018 por médicas-veterinárias, estudantes e moradores do Bairro Esperança. Atuamos com base no conceito de <strong>Saúde Única</strong>: a saúde dos animais, das pessoas e do ambiente está conectada. Por isso, cada castração, consulta ou palestra também previne doenças que afetam a comunidade.</p>
-        <div class="grade grade--3">
-          <div class="cartao">
+        <div class="grade">
+          <div class="cartao col-sm-6 col-lg-4">
             <h3>Missão</h3>
             <p>Promover o bem-estar de cães e gatos e a saúde da comunidade por meio de atendimento veterinário acessível, educação e adoção responsável.</p>
           </div>
-          <div class="cartao">
+          <div class="cartao col-sm-6 col-lg-4">
             <h3>Visão</h3>
             <p>Ser referência regional em proteção animal com impacto social: bairros sem abandono e tutores bem informados.</p>
           </div>
-          <div class="cartao">
+          <div class="cartao col-sm-6 col-lg-4">
             <h3>Valores</h3>
             <ul>
               <li>Respeito à vida em todas as formas</li>
@@ -83,34 +107,106 @@
     <section id="impacto" class="secao secao--suave" aria-labelledby="titulo-impacto">
       <div class="container">
         <h2 id="titulo-impacto">Nosso impacto em 2025</h2>
-        <ul class="numeros">
-          <li><strong><data value="1240">1.240</data></strong> castrações gratuitas</li>
-          <li><strong><data value="3150">3.150</data></strong> atendimentos veterinários sociais</li>
-          <li><strong><data value="386">386</data></strong> adoções responsáveis</li>
-          <li><strong><data value="42">42</data></strong> escolas com palestras educativas</li>
+        <ul class="numeros grade">
+          <li class="col-sm-6 col-lg-3"><strong><data value="1240">1.240</data></strong> castrações gratuitas</li>
+          <li class="col-sm-6 col-lg-3"><strong><data value="3150">3.150</data></strong> atendimentos veterinários sociais</li>
+          <li class="col-sm-6 col-lg-3"><strong><data value="386">386</data></strong> adoções responsáveis</li>
+          <li class="col-sm-6 col-lg-3"><strong><data value="42">42</data></strong> escolas com palestras educativas</li>
         </ul>
       </div>
     </section>
 
+    <!-- Projetos em destaque: cartões com imagem, etiquetas e o cartão inteiro clicável -->
+    <section id="projetos-destaque" class="secao" aria-labelledby="titulo-projetos-destaque">
+      <div class="container">
+        <h2 id="titulo-projetos-destaque">Projetos em destaque</h2>
+        <p class="secao__intro">Quatro frentes de trabalho levam saúde, informação e novos lares aos animais e às famílias da região.</p>
+        <div class="grade">
+          <article class="cartao cartao--interativo col-sm-6 col-lg-3" aria-labelledby="cartao-castracao">
+            <h3 id="cartao-castracao">Castração Solidária</h3>
+            <div class="cartao__topo">
+              <span class="etiqueta">Saúde animal</span>
+              <span class="etiqueta etiqueta--secundaria">Gratuito</span>
+            </div>
+            <p>Mutirões mensais de castração para cães e gatos de famílias de baixa renda.</p>
+            <!-- A imagem vem depois do título no HTML, mas aparece no topo do cartão (order no CSS) -->
+            <div class="cartao__imagem">
+              <img src="img/projeto-castracao.svg" alt="Gato sentado ao lado de um escudo verde com uma cruz médica e um coração." width="480" height="320" loading="lazy">
+            </div>
+            <div class="cartao__rodape">
+              <a class="cartao__link" href="projetos.html#castracao-solidaria">Saiba mais<span class="visualmente-oculto"> sobre a Castração Solidária</span></a>
+            </div>
+          </article>
+          <article class="cartao cartao--interativo col-sm-6 col-lg-3" aria-labelledby="cartao-clinica">
+            <h3 id="cartao-clinica">Clínica Veterinária Social</h3>
+            <div class="cartao__topo">
+              <span class="etiqueta">Saúde animal</span>
+              <span class="etiqueta etiqueta--info">Preço social</span>
+            </div>
+            <p>Consultas, vacinas e exames de segunda a sábado, com valores conforme a renda.</p>
+            <div class="cartao__imagem">
+              <img src="img/projeto-clinica.svg" alt="Pegada de animal verde ao lado de um estetoscópio." width="480" height="320" loading="lazy">
+            </div>
+            <div class="cartao__rodape">
+              <a class="cartao__link" href="projetos.html#clinica-social">Saiba mais<span class="visualmente-oculto"> sobre a Clínica Veterinária Social</span></a>
+            </div>
+          </article>
+          <article class="cartao cartao--interativo col-sm-6 col-lg-3" aria-labelledby="cartao-educar">
+            <h3 id="cartao-educar">Educar para Cuidar</h3>
+            <div class="cartao__topo">
+              <span class="etiqueta etiqueta--info">Educação</span>
+            </div>
+            <p>Palestras e oficinas sobre guarda responsável e prevenção de zoonoses nas escolas.</p>
+            <div class="cartao__imagem">
+              <img src="img/projeto-educacao.svg" alt="Livro aberto com uma pegada de animal na página e um lápis ao lado." width="480" height="320" loading="lazy">
+            </div>
+            <div class="cartao__rodape">
+              <a class="cartao__link" href="projetos.html#educar-para-cuidar">Saiba mais<span class="visualmente-oculto"> sobre o Educar para Cuidar</span></a>
+            </div>
+          </article>
+          <article class="cartao cartao--interativo col-sm-6 col-lg-3" aria-labelledby="cartao-adote">
+            <h3 id="cartao-adote">Adote um Amigo</h3>
+            <div class="cartao__topo">
+              <span class="etiqueta etiqueta--secundaria">Adoção</span>
+              <span class="etiqueta etiqueta--alerta">Feira quinzenal</span>
+            </div>
+            <p>Animais resgatados, tratados e castrados à espera de uma família responsável.</p>
+            <div class="cartao__imagem">
+              <img src="img/projeto-adocao.svg" alt="Cachorro caramelo sentado ao lado de uma casinha com um coração no telhado." width="480" height="320" loading="lazy">
+            </div>
+            <div class="cartao__rodape">
+              <a class="cartao__link" href="projetos.html#adote-um-amigo">Saiba mais<span class="visualmente-oculto"> sobre o Adote um Amigo</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- Formas de ajudar: cada article é um bloco independente -->
-    <section id="como-ajudar" class="secao" aria-labelledby="titulo-como-ajudar">
+    <section id="como-ajudar" class="secao secao--suave" aria-labelledby="titulo-como-ajudar">
       <div class="container">
         <h2 id="titulo-como-ajudar">Como ajudar</h2>
-        <div class="grade grade--3">
-          <article class="cartao cartao--acao">
-            <h3>Seja voluntário</h3>
+        <div class="grade">
+          <article class="cartao cartao--interativo col-sm-6 col-lg-4" aria-labelledby="ajuda-voluntario">
+            <h3 id="ajuda-voluntario">Seja voluntário</h3>
             <p>Doe algumas horas por semana nos mutirões, nas feiras de adoção, nas escolas ou na comunicação da ONG.</p>
-            <a href="cadastro.html">Quero ser voluntário</a>
+            <div class="cartao__rodape">
+              <a class="cartao__link" href="cadastro.html">Quero ser voluntário</a>
+            </div>
           </article>
-          <article class="cartao cartao--acao">
-            <h3>Faça uma doação</h3>
+          <article class="cartao cartao--interativo col-sm-6 col-lg-4" aria-labelledby="ajuda-doacao">
+            <h3 id="ajuda-doacao">Faça uma doação</h3>
             <p>Com R$ 30 por mês você custeia a vacinação de um animal resgatado. Aceitamos doações únicas ou mensais.</p>
-            <a href="cadastro.html">Quero doar</a>
+            <div class="cartao__rodape">
+              <a class="cartao__link" href="cadastro.html">Quero doar</a>
+            </div>
           </article>
-          <article class="cartao cartao--acao">
-            <h3>Adote ou seja lar temporário</h3>
+          <article class="cartao cartao--interativo col-sm-6 col-lg-4" aria-labelledby="ajuda-adocao">
+            <h3 id="ajuda-adocao">Adote ou seja lar temporário</h3>
             <p>Todos os animais são entregues castrados, vacinados e vermifugados, com acompanhamento após a adoção.</p>
-            <a href="projetos.html#adote-um-amigo">Conhecer o projeto</a>
+            <div class="cartao__rodape">
+              <a class="cartao__link" href="projetos.html#adote-um-amigo">Conhecer o projeto de adoção</a>
+            </div>
           </article>
         </div>
       </div>
@@ -126,16 +222,41 @@
     </aside>
 
     <!-- Transparência: como os recursos são aplicados -->
-    <section id="transparencia" class="secao secao--suave" aria-labelledby="titulo-transparencia">
+    <section id="transparencia" class="secao" aria-labelledby="titulo-transparencia">
       <div class="container">
         <h2 id="titulo-transparencia">Transparência</h2>
         <p class="secao__intro">Publicamos todo ano o relatório de atividades e a prestação de contas aprovada em assembleia. Veja como cada R$ 100 doados foram aplicados em 2025:</p>
-        <ul class="recursos">
-          <li><strong>R$ 62</strong> em castrações, consultas e medicamentos</li>
-          <li><strong>R$ 18</strong> em ração e abrigo para animais resgatados</li>
-          <li><strong>R$ 12</strong> em educação e materiais para as escolas</li>
-          <li><strong>R$ 8</strong> em custos administrativos</li>
+        <ul class="numeros numeros--secundario grade">
+          <li class="col-sm-6 col-lg-3"><strong>R$ 62</strong> em castrações, consultas e medicamentos</li>
+          <li class="col-sm-6 col-lg-3"><strong>R$ 18</strong> em ração e abrigo para animais resgatados</li>
+          <li class="col-sm-6 col-lg-3"><strong>R$ 12</strong> em educação e materiais para as escolas</li>
+          <li class="col-sm-6 col-lg-3"><strong>R$ 8</strong> em custos administrativos</li>
         </ul>
+      </div>
+    </section>
+
+    <!-- Perguntas frequentes: details/summary funcionam sem JavaScript e com teclado -->
+    <section id="perguntas" class="secao secao--suave" aria-labelledby="titulo-perguntas">
+      <div class="container">
+        <h2 id="titulo-perguntas">Perguntas frequentes</h2>
+        <div class="acordeao largura-leitura">
+          <details>
+            <summary>Preciso ter experiência para ser voluntário?</summary>
+            <p>Não. Todas as pessoas voluntárias participam de uma integração on-line de 2 horas e atuam sempre acompanhadas pela coordenação do projeto escolhido.</p>
+          </details>
+          <details>
+            <summary>Quem pode usar a Clínica Veterinária Social?</summary>
+            <p>Tutores com renda familiar de até três salários mínimos e animais resgatados pela ONG. Basta levar um documento com foto e um comprovante de endereço.</p>
+          </details>
+          <details>
+            <summary>A doação tem recibo?</summary>
+            <p>Sim. Todo doador recebe o recibo por e-mail e pode consultar a prestação de contas anual na seção de transparência.</p>
+          </details>
+          <details>
+            <summary>Como funciona a adoção?</summary>
+            <p>Você conhece os animais nas feiras quinzenais, passa por uma entrevista e assina um termo de adoção responsável. A equipe acompanha a adaptação por seis meses.</p>
+          </details>
+        </div>
       </div>
     </section>
 
@@ -143,15 +264,15 @@
     <section id="contato" class="secao" aria-labelledby="titulo-contato">
       <div class="container">
         <h2 id="titulo-contato">Fale conosco</h2>
-        <div class="grade grade--2">
-          <address class="contato">
+        <div class="grade">
+          <address class="cartao col-md-6">
             <p><strong>Sede e clínica social</strong><br>
               Rua das Acácias, 250 – Bairro Esperança<br>
               Fortaleza – CE, CEP 60000-000</p>
             <p><strong>Telefone:</strong> <a href="tel:+558500000000">(85) 0000-0000</a></p>
             <p><strong>E-mail:</strong> <a href="mailto:contato@institutoeloanimal.org.br">contato@institutoeloanimal.org.br</a></p>
           </address>
-          <div class="contato">
+          <div class="cartao col-md-6">
             <p><strong>Horário de atendimento</strong><br>
               Segunda a sexta, das 8h às 17h<br>
               Sábados, das 8h às 12h</p>
@@ -163,20 +284,20 @@
 
   </main>
 
-  <!-- Rodapé: informações institucionais repetidas em todas as páginas -->
+  <!-- Rodapé: grade de 4 colunas no desktop, 2 no tablet e 1 no celular -->
   <footer class="rodape">
-    <div class="container rodape__conteudo">
-      <div>
+    <div class="container grade">
+      <div class="col-sm-6 col-lg-3">
         <p class="rodape__marca">Instituto Elo Animal</p>
         <p>Proteção animal e Saúde Única desde 2018.</p>
       </div>
-      <address>
+      <address class="col-sm-6 col-lg-3">
         Rua das Acácias, 250 – Fortaleza – CE<br>
         <a href="tel:+558500000000">(85) 0000-0000</a><br>
         <a href="mailto:contato@institutoeloanimal.org.br">contato@institutoeloanimal.org.br</a>
       </address>
-      <p>Atendimento: seg. a sex., 8h–17h<br>Sábados, 8h–12h</p>
-      <nav aria-label="Links rápidos">
+      <p class="col-sm-6 col-lg-3">Atendimento: seg. a sex., 8h–17h<br>Sábados, 8h–12h</p>
+      <nav class="col-sm-6 col-lg-3" aria-label="Links rápidos">
         <ul class="rodape__links">
           <li><a href="index.html#quem-somos">Quem somos</a></li>
           <li><a href="projetos.html">Projetos</a></li>
@@ -184,7 +305,10 @@
         </ul>
       </nav>
     </div>
-    <p class="container rodape__aviso"><small>&copy; 2026 Instituto Elo Animal. ONG fictícia criada para fins acadêmicos (Experiência Prática I – Desenvolvimento Front-end para Web). Dados de contato ilustrativos.</small></p>
+    <p class="container rodape__aviso"><small>&copy; 2026 Instituto Elo Animal. ONG fictícia criada para fins acadêmicos (Experiências Práticas I e II – Desenvolvimento Front-end para Web). Dados de contato ilustrativos.</small></p>
   </footer>
+
+  <!-- Área das notificações toast: role="status" faz o leitor de tela anunciar cada aviso -->
+  <div id="area-toast" class="toast-area" role="status"></div>
 </body>
 </html>
