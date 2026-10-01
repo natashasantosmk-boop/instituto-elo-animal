@@ -1,0 +1,88 @@
+<!-- View: Minha área (rota #/minha-area) – controlador: js/paginas/minha-area.js
+     Mostra e gerencia os dados que o site guardou NESTE navegador (localStorage) -->
+
+<section class="cabecalho-pagina" aria-labelledby="titulo-pagina">
+  <div class="container">
+    <nav class="migalhas" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="#/">Início</a></li>
+        <li><span aria-current="page">Minha área</span></li>
+      </ol>
+    </nav>
+    <h1 id="titulo-pagina">Minha área</h1>
+    <p class="secao__intro">Inscrições enviadas, projetos favoritos e preferências de exibição ficam guardados só neste navegador. Nada disso vai para um servidor.</p>
+  </div>
+</section>
+
+<div class="container minha-area">
+  <div class="alerta alerta--aviso" data-sem-armazenamento hidden>
+    <div class="alerta__conteudo">
+      <strong class="alerta__titulo">Armazenamento indisponível</strong>
+      <p>Este navegador não permite guardar dados (por exemplo, em algumas janelas anônimas). O site funciona, mas nada será lembrado na próxima visita.</p>
+    </div>
+  </div>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-inscricoes">
+    <h2 id="titulo-inscricoes">Minhas inscrições <span class="contador contador--titulo" data-total-inscricoes></span></h2>
+    <ul class="lista-inscricoes grade" data-lista-inscricoes></ul>
+    <div class="estado-vazio" data-sem-inscricoes hidden>
+      <p>Você ainda não enviou nenhum cadastro por este navegador.</p>
+      <a class="botao botao--secundario" href="#/cadastro">Fazer meu cadastro</a>
+    </div>
+  </section>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-favoritos">
+    <h2 id="titulo-favoritos">Projetos favoritos</h2>
+    <ul class="favoritos" data-lista-favoritos></ul>
+    <div class="estado-vazio" data-sem-favoritos hidden>
+      <p>Nenhum projeto favoritado. Use o botão com coração nos cartões dos projetos.</p>
+      <a class="botao botao--contorno" href="#/projetos">Ver projetos</a>
+    </div>
+  </section>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-preferencias">
+    <h2 id="titulo-preferencias">Preferências de exibição</h2>
+    <form class="preferencias cartao" data-preferencias>
+      <fieldset class="subgrupo">
+        <legend>Tamanho do texto</legend>
+        <div class="opcoes">
+          <div class="opcao">
+            <input type="radio" id="fonte-padrao" name="fonte" value="padrao">
+            <label for="fonte-padrao">Padrão</label>
+          </div>
+          <div class="opcao">
+            <input type="radio" id="fonte-grande" name="fonte" value="grande">
+            <label for="fonte-grande">Grande</label>
+          </div>
+          <div class="opcao">
+            <input type="radio" id="fonte-maior" name="fonte" value="maior">
+            <label for="fonte-maior">Maior</label>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="subgrupo">
+        <legend>Animações</legend>
+        <div class="opcoes">
+          <div class="opcao">
+            <input type="radio" id="movimento-padrao" name="movimento" value="padrao">
+            <label for="movimento-padrao">Ligadas</label>
+          </div>
+          <div class="opcao">
+            <input type="radio" id="movimento-reduzido" name="movimento" value="reduzido">
+            <label for="movimento-reduzido">Reduzidas</label>
+          </div>
+        </div>
+      </fieldset>
+      <p class="dica mb-0">A escolha vale na hora e é lembrada nas próximas visitas.</p>
+    </form>
+  </section>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-privacidade">
+    <h2 id="titulo-privacidade">Privacidade</h2>
+    <p class="largura-leitura">Conforme a LGPD, você pode levar ou apagar seus dados quando quiser. O arquivo baixado é um JSON com tudo o que o site guardou aqui (rascunho, inscrições, favoritos e preferências).</p>
+    <div class="grupo-botoes">
+      <button type="button" class="botao botao--contorno" data-baixar-dados>Baixar meus dados (JSON)</button>
+      <button type="button" class="botao botao--perigo" data-apagar-dados>Apagar todos os meus dados</button>
+    </div>
+  </section>
+</div>
