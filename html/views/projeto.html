@@ -1,0 +1,60 @@
+<!-- View: detalhe de um projeto (rota #/projetos/:id) – controlador: js/paginas/projeto.js
+     A própria view é um template: os atributos data-* são preenchidos com o projeto da URL -->
+
+<section class="cabecalho-pagina" aria-labelledby="titulo-pagina">
+  <div class="container">
+    <nav class="migalhas" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="#/">Início</a></li>
+        <li><a href="#/projetos">Projetos sociais</a></li>
+        <li><span aria-current="page" data-campo="titulo"></span></li>
+      </ol>
+    </nav>
+    <div class="cabecalho-pagina__linha">
+      <h1 id="titulo-pagina" data-campo="titulo">Projeto</h1>
+      <button type="button" class="favorito favorito--com-texto" data-atributo="data-favoritar:id" aria-pressed="false">
+        <span class="favorito__icone" aria-hidden="true"></span>
+        <span>Favoritar</span>
+      </button>
+    </div>
+    <p class="etiquetas" data-lista="etiquetas" data-item="tpl-etiqueta"></p>
+  </div>
+</section>
+
+<div class="container">
+  <article class="projeto grade" aria-labelledby="titulo-pagina">
+    <figure class="projeto__figura">
+      <img src="data:," alt="" data-atributo="src:imagem;alt:alt" width="480" height="320">
+      <figcaption data-campo="legenda"></figcaption>
+    </figure>
+    <div class="projeto__texto">
+      <p data-campo="descricao"></p>
+      <h2>Objetivos</h2>
+      <ul data-lista="objetivos" data-item="tpl-item-texto"></ul>
+      <h2>Público atendido</h2>
+      <p data-campo="publico"></p>
+      <h2>Resultados em 2025</h2>
+      <dl class="indicadores">
+        <div><dt>Resultado</dt><dd data-campo="resultado"></dd></div>
+        <div><dt>Voluntários</dt><dd data-campo="voluntarios"></dd></div>
+        <div><dt>Bairros alcançados</dt><dd data-campo="bairros"></dd></div>
+      </dl>
+      <div class="grupo-botoes">
+        <a class="botao botao--secundario" data-atributo="href:linkCadastro">Quero ajudar neste projeto</a>
+        <a class="botao botao--contorno" href="#/doacoes">Fazer uma doação</a>
+      </div>
+    </div>
+  </article>
+
+  <!-- Navegação entre projetos: anterior e próximo calculados pela posição na lista -->
+  <nav class="paginacao-projetos" aria-label="Outros projetos">
+    <a class="paginacao-projetos__link" rel="prev" href="#/projetos" data-atributo="href:anterior.link">
+      <span class="paginacao-projetos__rotulo">Projeto anterior</span>
+      <span data-campo="anterior.titulo"></span>
+    </a>
+    <a class="paginacao-projetos__link paginacao-projetos__link--proximo" rel="next" href="#/projetos" data-atributo="href:proximo.link">
+      <span class="paginacao-projetos__rotulo">Próximo projeto</span>
+      <span data-campo="proximo.titulo"></span>
+    </a>
+  </nav>
+</div>
