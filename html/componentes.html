@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Componentes reutilizáveis – Instituto Elo Animal</title>
+</head>
+<body>
+  <h1>Moldes de componentes do Instituto Elo Animal</h1>
+  <!--
+    Moldes (templates) dos componentes repetidos da SPA.
+    Este arquivo não é uma página: o core/templates.js o lê uma vez, clona
+    cada <template> e preenche os atributos data-* com os dados:
+      data-campo     -> texto do elemento
+      data-atributo  -> atributos ("nome:campo;outro:campo")
+      data-classes   -> classes extras vindas dos dados
+      data-se / data-se-nao -> mostra o elemento só se o campo tiver (ou não) valor
+      data-lista + data-item -> repete outro molde para cada item de uma lista
+  -->
+
+  <h2>Moldes usados pelas views</h2>
+
+  <!-- Etiqueta (badge): a variante de cor vem dos dados -->
+  <template id="tpl-etiqueta">
+    <span class="etiqueta" data-classes="variante" data-campo="texto"></span>
+  </template>
+
+  <!-- Item de lista de texto simples ("." = o próprio texto) -->
+  <template id="tpl-item-texto">
+    <li data-campo="."></li>
+  </template>
+
+  <!-- Cartão de projeto: usado na página inicial e na lista filtrável de projetos -->
+  <template id="tpl-cartao-projeto">
+    <article class="cartao cartao--interativo col-sm-6 col-lg-3" data-atributo="aria-labelledby:idTitulo">
+      <h3 data-atributo="id:idTitulo" data-campo="titulo"></h3>
+      <div class="cartao__topo etiquetas" data-lista="etiquetas" data-item="tpl-etiqueta"></div>
+      <p data-campo="resumo"></p>
+      <div class="cartao__imagem">
+        <img src="data:," alt="" data-atributo="src:imagem;alt:alt" width="480" height="320" loading="lazy">
+      </div>
+      <div class="cartao__rodape">
+        <a class="cartao__link" data-atributo="href:link">Saiba mais<span class="visualmente-oculto" data-campo="tituloOculto"></span></a>
+        <button type="button" class="favorito" data-atributo="data-favoritar:id;aria-label:rotuloFavorito" aria-pressed="false">
+          <span class="favorito__icone" aria-hidden="true"></span>
+        </button>
+      </div>
+    </article>
+  </template>
+
+  <!-- Linha da tabela de resultados por projeto -->
+  <template id="tpl-linha-resultado">
+    <tr>
+      <th scope="row"><a data-atributo="href:link" data-campo="titulo"></a></th>
+      <td data-campo="resultado"></td>
+      <td data-campo="voluntarios"></td>
+      <td data-campo="bairros"></td>
+    </tr>
+  </template>
+
+  <!-- Indicador de impacto (o número é animado pela página inicial) -->
+  <template id="tpl-numero">
+    <li class="col-sm-6 col-lg-3">
+      <strong><data value="0" data-atributo="value:valor" data-campo="valorFormatado"></data></strong>
+      <span data-campo="rotulo"></span>
+    </li>
+  </template>
+
+  <!-- Pergunta frequente (details/summary funciona com teclado e sem JavaScript extra) -->
+  <template id="tpl-pergunta">
+    <details>
+      <summary data-campo="pergunta"></summary>
+      <p data-campo="resposta"></p>
+    </details>
+  </template>
+
+  <!-- Cartão de campanha de doação com barra de progresso -->
+  <template id="tpl-cartao-campanha">
+    <article class="cartao campanha col-md-6 col-lg-4" data-classes="classeSituacao" data-atributo="aria-labelledby:idTitulo">
+      <div class="cartao__topo">
+        <h3 data-atributo="id:idTitulo" data-campo="titulo"></h3>
+        <span class="etiqueta" data-classes="varianteSituacao" data-campo="situacao"></span>
+      </div>
+      <p data-campo="descricao"></p>
+      <label data-atributo="for:idProgresso" data-campo="rotuloProgresso"></label>
+      <progress data-atributo="id:idProgresso;max:meta;value:arrecadado" data-campo="percentualTexto"></progress>
+      <p class="campanha__prazo texto-suave" data-campo="prazoTexto"></p>
+      <div class="cartao__rodape">
+        <a class="botao botao--pequeno botao--secundario" data-se="aberta" data-atributo="href:link" data-campo="rotuloAcao"></a>
+        <p class="campanha__encerrada" data-se-nao="aberta">Campanha encerrada. Obrigado a quem doou!</p>
+      </div>
+    </article>
+  </template>
+
+  <!-- Item do resultado do simulador de doação -->
+  <template id="tpl-item-impacto">
+    <li><strong data-campo="quantidade"></strong> <span data-campo="descricao"></span></li>
+  </template>
+
+  <!-- Linha das tabelas que acompanham os gráficos (alternativa acessível) -->
+  <template id="tpl-linha-dado">
+    <tr>
+      <th scope="row" data-campo="rotulo"></th>
+      <td data-campo="valor"></td>
+    </tr>
+  </template>
+
+  <template id="tpl-linha-historico">
+    <tr>
+      <th scope="row" data-campo="ano"></th>
+      <td data-campo="castracoes"></td>
+      <td data-campo="atendimentos"></td>
+      <td data-campo="adocoes"></td>
+    </tr>
+  </template>
+
+  <!-- Inscrição salva no navegador (Minha área) -->
+  <template id="tpl-inscricao">
+    <li class="inscricao">
+      <article class="cartao" data-atributo="aria-labelledby:idTitulo">
+        <div class="cartao__topo">
+          <h3 data-atributo="id:idTitulo" data-campo="tipo"></h3>
+          <span class="etiqueta etiqueta--info" data-campo="dataEnvio"></span>
+        </div>
+        <dl class="dados-lista">
+          <div><dt>Nome</dt><dd data-campo="nome"></dd></div>
+          <div><dt>E-mail</dt><dd data-campo="email"></dd></div>
+          <div><dt>Cidade</dt><dd data-campo="cidade"></dd></div>
+          <div data-se="areas"><dt>Áreas</dt><dd data-campo="areas"></dd></div>
+          <div data-se="doacao"><dt>Doação</dt><dd data-campo="doacao"></dd></div>
+        </dl>
+        <div class="cartao__rodape">
+          <button type="button" class="botao botao--pequeno botao--contorno" data-excluir-inscricao data-atributo="data-id:id;aria-label:rotuloExcluir">Excluir</button>
+        </div>
+      </article>
+    </li>
+  </template>
+
+  <!-- Projeto favorito (Minha área) -->
+  <template id="tpl-favorito">
+    <li class="favoritos__item">
+      <a data-atributo="href:link" data-campo="titulo"></a>
+      <button type="button" class="favorito" data-atributo="data-favoritar:id;aria-label:rotuloFavorito" aria-pressed="true">
+        <span class="favorito__icone" aria-hidden="true"></span>
+      </button>
+    </li>
+  </template>
+</body>
+</html>
