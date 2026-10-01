@@ -1,0 +1,82 @@
+<!-- View: Doações (rota #/doacoes) – controlador: js/paginas/doacoes.js -->
+
+<section class="cabecalho-pagina" aria-labelledby="titulo-pagina">
+  <div class="container">
+    <nav class="migalhas" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="#/">Início</a></li>
+        <li><span aria-current="page">Doações</span></li>
+      </ol>
+    </nav>
+    <h1 id="titulo-pagina">Doações</h1>
+    <p class="secao__intro">Cada campanha tem meta, prazo e prestação de contas. Escolha uma campanha ou simule quanto a sua doação consegue fazer.</p>
+  </div>
+</section>
+
+<section id="campanhas" class="secao" aria-labelledby="titulo-campanhas">
+  <div class="container">
+    <h2 id="titulo-campanhas">Campanhas</h2>
+    <!-- Alerta montado pelo JavaScript: campanha aberta com o prazo mais próximo -->
+    <div class="alerta alerta--aviso" data-alerta-prazo hidden>
+      <div class="alerta__conteudo">
+        <strong class="alerta__titulo" data-alerta-titulo></strong>
+        <p data-alerta-texto></p>
+      </div>
+    </div>
+    <div class="grade" data-lista-campanhas></div>
+  </div>
+</section>
+
+<!-- Simulador: o evento "input" recalcula o resultado a cada movimento do controle -->
+<section id="simulador" class="secao secao--suave" aria-labelledby="titulo-simulador">
+  <div class="container grade">
+    <div class="col-lg-6">
+      <h2 id="titulo-simulador">Simule o impacto da sua doação</h2>
+      <p>Arraste o controle ou digite um valor. Os custos são médias da Clínica Social em 2025.</p>
+      <form class="simulador cartao" data-simulador>
+        <div class="campo">
+          <label for="valor-faixa">Valor da doação</label>
+          <input type="range" id="valor-faixa" name="faixa" min="10" max="600" step="10" value="60" aria-describedby="valor-escolhido">
+        </div>
+        <div class="campo">
+          <label for="valor-numero">Ou digite o valor (R$)</label>
+          <input type="number" id="valor-numero" name="valor" min="10" max="10000" step="1" value="60" inputmode="numeric">
+        </div>
+        <p class="simulador__valor" id="valor-escolhido" data-valor-escolhido></p>
+      </form>
+    </div>
+    <div class="col-lg-6">
+      <div class="simulador__resultado cartao" data-resultado-simulador>
+        <p class="simulador__titulo" data-resultado-titulo></p>
+        <ul class="simulador__lista" data-resultado-lista></ul>
+      </div>
+      <!-- Resumo para leitores de tela: anunciado só quando a pessoa para de mexer no controle -->
+      <p class="visualmente-oculto" role="status" data-anuncio-simulador></p>
+      <p class="mt-4"><a class="botao botao--secundario" href="#/cadastro?tipo=doador" data-link-doar>Quero doar este valor</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="formas-de-doar" class="secao" aria-labelledby="titulo-formas">
+  <div class="container">
+    <h2 id="titulo-formas">Formas de doar</h2>
+    <div class="grade">
+      <div class="cartao col-md-4">
+        <h3>Dinheiro</h3>
+        <p>Pix, boleto ou cartão de crédito, em doação única ou mensal. A chave Pix é o e-mail da ONG.</p>
+        <div class="cartao__rodape">
+          <!-- Copia a chave (Clipboard API) e confirma com uma notificação toast -->
+          <button class="botao botao--pequeno botao--contorno" type="button" data-copiar="contato@institutoeloanimal.org.br">Copiar chave Pix</button>
+        </div>
+      </div>
+      <div class="cartao col-md-4">
+        <h3>Itens</h3>
+        <p>Ração, medicamentos veterinários dentro da validade, cobertores e caixas de transporte, entregues na sede.</p>
+      </div>
+      <div class="cartao col-md-4">
+        <h3>Transparência</h3>
+        <p>Todo doador recebe recibo e pode consultar a <a href="#/transparencia">prestação de contas anual</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
