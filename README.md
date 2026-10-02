@@ -1,99 +1,143 @@
-# Instituto Elo Animal – plataforma web para ONG
+# Instituto Elo Animal – SPA para uma ONG de proteção animal
 
-Projeto das **Experiências Práticas I e II** da disciplina **Desenvolvimento Front-end para Web**
-(CST em Análise e Desenvolvimento de Sistemas).
-Autora: **Natasha Natividade dos Santos**.
+Projeto das **Experiências Práticas I, II e III** da disciplina **Desenvolvimento Front-end para Web**
+(CST em Análise e Desenvolvimento de Sistemas). Autora: **Natasha Natividade dos Santos**.
 
 O Instituto Elo Animal é uma **ONG fictícia** de proteção animal que trabalha com o conceito de
-**Saúde Única** (a saúde dos animais, das pessoas e do ambiente está conectada). O site apresenta a
-organização, os projetos sociais e um formulário de cadastro de voluntários e doadores.
+**Saúde Única** (a saúde dos animais, das pessoas e do ambiente está conectada).
 
 - **Experiência Prática I:** estrutura em HTML5 semântico, acessibilidade e formulário com validação nativa.
-- **Experiência Prática II:** design system em CSS, layout responsivo com Grid de 12 colunas e
-  componentes visuais e interativos (menu responsivo com dropdown, cartões, feedback de formulário,
-  alertas, modais e notificações toast).
+- **Experiência Prática II:** design system em CSS, Grid de 12 colunas responsivo e componentes visuais.
+- **Experiência Prática III (esta versão):** o site estático virou uma **SPA (Single Page Application)** em
+  JavaScript puro, com roteador por hash, templates dinâmicos, eventos, validação de formulário,
+  dados no navegador (localStorage/sessionStorage), biblioteca externa (Chart.js), código em módulos ES
+  e testes automatizados.
+
+## Como executar
+
+Por usar **módulos ES** (`<script type="module">`) e `fetch`, a SPA precisa de um servidor local
+(o navegador bloqueia módulos abertos com duplo clique, no endereço `file://`; nesse caso o site
+mostra um aviso explicando o motivo). Qualquer uma das opções abaixo funciona:
+
+| Opção | Comando | Endereço |
+|---|---|---|
+| VS Code | extensão **Live Server** → "Go Live" | o que o Live Server abrir |
+| Node.js | `npm start` (usa `npx serve`) | http://localhost:5500 |
+| Python | `python -m http.server 8000` | http://localhost:8000 |
 
 ## Estrutura de diretórios
 
 ```
 instituto-elo-animal/
-├── index.html         → início: apresentação, impacto, projetos em destaque, como ajudar, transparência, perguntas e contato
-├── projetos.html      → projetos sociais (4 iniciativas), tabela de resultados, voluntariado e campanhas de doação
-├── cadastro.html      → formulário de cadastro de voluntários e doadores
-├── css/
-│   ├── variaveis.css  → DESIGN SYSTEM: cores, tipografia, espaçamentos, raios, sombras e camadas (tokens)
-│   ├── base.css       → reset leve e estilos dos elementos HTML (títulos, links, foco visível)
-│   ├── layout.css     → container, grid de 12 colunas, seções e os 5 breakpoints
-│   ├── componentes.css→ cabeçalho, menu, botões, cartões, formulários, alertas, modal, toast, rodapé
-│   └── utilitarios.css→ classes de propósito único (texto só para leitores de tela, margens...)
+├── index.html              → SHELL da SPA: cabeçalho, menu, <main id="conteudo"> (onde as views entram),
+│                             rodapé, área de notificações e diálogo de confirmação
+├── html/
+│   ├── views/              → um fragmento HTML por tela, carregado pelo roteador com fetch (e guardado em cache)
+│   │   ├── inicio.html  projetos.html  projeto.html  doacoes.html
+│   │   └── transparencia.html  cadastro.html  minha-area.html  nao-encontrada.html
+│   └── componentes.html    → moldes <template>: cartão de projeto, cartão de campanha, pergunta, inscrição...
+├── css/                    → variaveis.css (design tokens) → base → layout → componentes → utilitarios
+├── imagens/                → logo e ilustração, projetos/ (uma por projeto) e icones/ (favicon e tela inicial)
 ├── js/
-│   ├── interface.js   → menu hambúrguer, submenu, modais (dialog), toasts e botão "copiar chave Pix"
-│   └── cadastro.js    → máscaras, validações, mensagens de erro, envio com carregamento e confirmações
-├── img/               → logotipo e ilustrações em SVG + ícones PNG (favicon e tela inicial do celular)
+│   ├── main.js             → ponto de entrada: MAPA DE ROTAS e inicialização dos componentes globais
+│   ├── core/               → infraestrutura da SPA
+│   │   ├── roteador.js     → rotas por hash, :parâmetros, 404, troca de view, título, foco e aria-current
+│   │   ├── templates.js    → carrega views e moldes; preenche data-campo/data-atributo/data-lista
+│   │   ├── armazenamento.js→ única porta para o localStorage/sessionStorage (prefixo, versão, validade, try/catch)
+│   │   └── bibliotecas.js  → carrega bibliotecas externas sob demanda (CDN com SRI + cópia local de reserva)
+│   ├── componentes/        → comportamentos reutilizáveis: menu, modal, toast, favoritos, preferências,
+│   │                         validação de formulários e modelos dos cartões
+│   ├── paginas/            → um controlador por view: montar() liga os eventos; a saída da rota os desliga
+│   ├── dados/conteudo.js   → fonte única de projetos, campanhas, indicadores, perguntas e custos
+│   ├── utils/              → funções puras: dom, formatacao (Intl), validacoes (CPF, idade), mascaras
+│   └── vendor/             → cópia local do Chart.js 4.5.1 (licença MIT), usada se a CDN falhar
+├── testes/
+│   ├── unidade/            → testes das funções puras com o executor nativo do Node (node --test)
+│   └── e2e/                → testes de ponta a ponta no navegador (Playwright)
+├── package.json            → scripts start, test e test:e2e
 └── README.md
 ```
 
-Os arquivos CSS são carregados nesta ordem em todas as páginas: `variaveis` → `base` → `layout` →
-`componentes` → `utilitarios`. Assim, cada camada só usa o que foi definido antes dela.
+## Rotas da SPA
 
-## Como abrir
+| Hash | View | O que tem |
+|---|---|---|
+| `#/` | inicio | apresentação, números animados, projetos em destaque, contagem regressiva do mutirão, perguntas |
+| `#/projetos` | projetos | busca em tempo real, filtro por categoria, ordenação, "só favoritos", tabela de resultados |
+| `#/projetos/:id` | projeto | detalhe de qualquer projeto (uma view para todos), anterior/próximo |
+| `#/doacoes` | doacoes | campanhas com situação calculada pela data, alerta de prazo, simulador de doação, chave Pix |
+| `#/transparencia` | transparencia | gráficos de rosca e de barras (Chart.js) + tabelas com os mesmos dados |
+| `#/cadastro` | cadastro | formulário com validação, máscaras, rascunho automático e envio simulado |
+| `#/minha-area` | minha-area | inscrições salvas, favoritos, preferências, baixar ou apagar os dados (LGPD) |
+| qualquer outro | nao-encontrada | página 404 |
 
-Basta abrir o arquivo `index.html` no navegador. Não é preciso instalar nada nem usar servidor.
-No VS Code, a extensão *Live Server* também funciona.
+Parâmetros aceitos: `#/?secao=perguntas` rola até a seção; `#/projetos?busca=gato&categoria=saude`
+abre a lista já filtrada; `#/cadastro?tipo=doador&valor=60&campanha=vacina-solidaria` chega pré-preenchido.
 
-## Design system (css/variaveis.css)
+## Como a navegação funciona
 
-| Grupo | Tokens |
-|---|---|
-| Cores primárias (verde) | `--cor-primaria-700` #08513a · `-500` #0b6e4f · `-100` #e9f4ef |
-| Cores secundárias (terracota) | `--cor-secundaria-700` #8f3907 · `-500` #b4480a · `-100` #fdf1e6 |
-| Neutras | `--cor-neutra-900` #1d2a26 · `-600` #4a5a55 · `-400` #7b8c86 · `-200` #cfd8d3 · `-50` #fbf8f3 · `--cor-branca` |
-| Feedback | erro #b42318/#fdecea · alerta #7a4d00/#fff4d6 · informação #1a5fb4/#e8f0fb · foco em fundo escuro #ffd166 |
-| Tipografia | escala modular 1,25: 12,8 · 16 · 20 · 25 · 31 · 39 px; pesos 400, 600 e 700; entrelinha 1,6 (texto) e 1,2 (títulos) |
-| Espaçamentos | escala de 8 px: 4 · 8 · 16 · 24 · 32 · 48 · 64 · 96 px (`--espaco-1` a `--espaco-8`) |
-| Outros | raios 4/8/12 px e pílula, 2 sombras, transição de 200 ms, camadas de z-index, container de 1200 px, toque mínimo de 44 px |
+1. Os links são `<a href="#/projetos">` comuns. Trocar o hash não recarrega a página.
+2. O evento `hashchange` chama `renderizar()` no `core/roteador.js`, que separa caminho e consulta,
+   encontra a rota (ou a 404) e **desmonta a view anterior**: um `AbortController` remove de uma vez
+   todos os ouvintes de eventos, temporizadores e gráficos que ela criou.
+3. O HTML da view (`fetch`, com cache) e o controlador (`import()` sob demanda) são carregados em paralelo.
+4. `main.replaceChildren(fragmento)` limpa o contêiner e injeta a view; `montar()` preenche os dados e
+   liga os eventos. Um contador de navegação descarta respostas atrasadas (vale sempre o último clique).
+5. O título da aba e o `aria-current` do menu são atualizados, e o foco vai para o `<h1>` da nova tela.
 
-Todos os pares de texto e fundo passam no contraste WCAG 2.1 AA (texto principal 14:1, texto de apoio 6,9:1,
-branco sobre o verde 6,3:1, branco sobre a terracota 5,4:1).
+## Dados no navegador
 
-## Layout responsivo (css/layout.css)
+| Chave (`eloAnimal:` + …) | Onde | Conteúdo |
+|---|---|---|
+| `preferencias` | localStorage | tamanho do texto e animações (aplicados antes da 1ª pintura por um script no `<head>`) |
+| `favoritos` | localStorage | ids dos projetos favoritados (contador no menu, sincronizado entre abas) |
+| `rascunho-cadastro` | localStorage | formulário em andamento, **sem o CPF**; expira em 7 dias |
+| `inscricoes` | localStorage | resumo dos cadastros enviados (sem CPF, telefone ou endereço completo) |
+| `filtros-projetos` | sessionStorage | filtros da lista de projetos durante a visita |
 
-- `body` em grid de 3 linhas (`auto 1fr auto`): o rodapé fica sempre no fim da tela.
-- `.grade`: grid de 12 colunas (`repeat(12, minmax(0, 1fr))`); no celular todo item ocupa as 12 colunas e as
-  classes `.col-sm-6`, `.col-md-4…8` e `.col-lg-3…8` mudam o espaço a partir de cada breakpoint.
-- 5 breakpoints *mobile-first*: **sm 36rem (576 px)**, **md 48rem (768 px)**, **lg 62rem (992 px)**,
-  **xl 75rem (1200 px)** e **xxl 90rem (1440 px)**. Testado de 320 a 1920 px sem rolagem horizontal.
+Cada valor é salvo como `{ v, valor, salvoEm, expira }`. Toda leitura e escrita tem `try/catch`: se o
+navegador recusar (modo privativo, cota cheia) ou o JSON estiver corrompido, o site continua funcionando.
 
-## Componentes (css/componentes.css + js)
+## Biblioteca externa
 
-- **Menu:** horizontal a partir de 768 px, com o submenu "Projetos" em *dropdown* (abre com o mouse ou pelo
-  botão com `aria-expanded`); abaixo de 768 px vira um painel aberto pelo botão hambúrguer. Esc fecha e devolve o
-  foco; clicar fora ou escolher um link também fecha. Sem JavaScript, o menu aparece aberto.
-- **Cartões:** Flexbox em coluna; imagem no topo com `order` (o título vem primeiro no HTML), etiquetas
-  (*badges*), rodapé alinhado com `margin-top: auto` e o cartão inteiro clicável ("link esticado"), com
-  efeitos de `:hover` e `:focus-within`.
-- **Botões:** variações primária, secundária, contorno, clara, perigo e pequena; estados `:hover`, `:active`,
-  `:focus-visible`, desabilitado e carregando ("Enviando..." com ícone girando).
-- **Formulário:** cada erro aparece junto do campo, com ícone e texto, ligado por `aria-describedby` e marcado com
-  `aria-invalid`; campo válido ganha borda verde e ✓; `:user-invalid` marca erros mesmo sem JavaScript;
-  resumo de erros com links para cada campo.
-- **Feedback:** alertas contextuais (informação, aviso, erro e sucesso), janelas modais com `<dialog>` (Política de
-  Privacidade e confirmação antes de limpar o formulário) e notificações *toast* (chave Pix copiada, formulário
-  limpo) anunciadas por `role="status"`.
-- Animações curtas (200–300 ms) e desligadas para quem ativa "reduzir movimento" no sistema.
+**Chart.js 4.5.1** desenha os gráficos da Transparência. É baixado só quando essa página abre, da CDN
+jsDelivr com **Subresource Integrity** (`integrity="sha384-…"` + `crossorigin`); se a CDN falhar, vem a
+cópia em `js/vendor/`; se tudo falhar, a página mostra as tabelas. As cores vêm dos tokens do design system
+e cada `<canvas>` tem `role="img"` com `aria-label` descrevendo os dados.
+
+## Testes
+
+```bash
+npm test            # 32 testes de unidade (node --test), sem instalar nada
+npm install         # só para os testes de ponta a ponta
+npx playwright install chromium
+npm run test:e2e    # testes no navegador (sobe o servidor sozinho)
+```
 
 ## Validação
 
-- **W3C Nu HTML Checker:** 0 erros e 0 avisos nas três páginas; os 5 arquivos CSS também sem erros.
-- **axe-core** (WCAG 2.1/2.2 AA): nenhuma violação, inclusive com menu, modal, toast e erros do formulário abertos.
-- **Testes automatizados (Playwright):** 100 verificações de menu, dropdown, teclado, modais, toasts, máscaras,
-  validações, envio e limpeza do formulário; sem rolagem horizontal de 320 a 1920 px.
+- **W3C Nu HTML Checker:** 0 erros no index.html, no componentes.html, nas 8 views e também no DOM já
+  renderizado de cada rota; CSS sem erros.
+- **axe-core** (WCAG 2.1/2.2 AA): nenhuma violação em 30 estados de tela (8 rotas, lista vazia, formulário
+  com erros, rascunho restaurado, modais, menu, dropdown e toast), no desktop e no celular.
+- **Testes de unidade:** 32 aprovados (`npm test`), inclusive no fuso America/Fortaleza.
+- **Testes de ponta a ponta:** 7 cenários aprovados no desktop e no celular (14 execuções).
+- Na validação final também rodei uma bateria de interação com 123 verificações (navegação, voltar/avançar,
+  404, filtros, favoritos entre abas, simulador, gráficos, formulário, rascunho, Minha área e menu) e testes de
+  largura de 320 a 1920 px: sem rolagem horizontal e sem erros no console.
 
-## Próximos passos
+## Problemas encontrados e corrigidos
 
-- consultar o CEP (API ViaCEP) para preencher o endereço automaticamente;
-- criar um back-end para guardar os cadastros;
-- publicar o site no GitHub Pages.
+| Problema | Correção |
+|---|---|
+| Entre 992 e 1199 px, itens do menu quebravam em duas linhas | hambúrguer até 991 px, `white-space: nowrap` e nome da ONG só para leitores de tela nessa faixa |
+| A 404 de um projeto inexistente deixava "Projetos" ativo no menu | o roteador limpa o `aria-current` quando a rota é a 404 |
+| Erros no validador W3C (link com `rel` sem `href`, `time` vazio, `mask` abreviada) | valores de reserva nas views e propriedades `mask-*` separadas |
+| Gráficos ficariam acumulados na memória (sem `destroy`, `Chart.instances` ia a 4, 6, 8) | `desmontar()` chama `chart.destroy()`; ouvintes e timers saem pelo `AbortController` |
+| `new Date("2026-12-15")` vira 14/12 às 21h no fuso do Brasil | `paraDataLocal()` e `diasAte()` com datas locais, cobertos por testes |
+| CDN indisponível na rede de testes | carregamento com SRI → cópia local → tabelas como alternativa |
+| Site em branco ao abrir com duplo clique (`file://`) | aviso explicativo e menu sempre aberto nesse caso |
+| `node --test pasta/` falha no Node 22 | script `npm test` com padrão glob |
 
 ---
 *Projeto acadêmico. A ONG e os dados de contato são fictícios.*

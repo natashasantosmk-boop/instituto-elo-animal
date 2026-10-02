@@ -32,6 +32,28 @@ html {
   }
 }
 
+/* Preferências salvas na Minha área (atributos colocados no <html> pelo JavaScript) */
+html[data-movimento="reduzido"] {
+  scroll-behavior: auto;
+}
+
+html[data-movimento="reduzido"] *,
+html[data-movimento="reduzido"] *::before,
+html[data-movimento="reduzido"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Tamanho do texto: como tudo usa rem, aumentar a fonte da raiz amplia o site inteiro */
+html[data-fonte="grande"] {
+  font-size: 112.5%; /* 18 px */
+}
+
+html[data-fonte="maior"] {
+  font-size: 125%; /* 20 px */
+}
+
 body {
   margin: 0;
   font-family: var(--fonte-familia);
@@ -104,6 +126,12 @@ a:hover {
 :focus-visible {
   outline: 3px solid var(--cor-secundaria-500);
   outline-offset: 3px;
+}
+
+/* Títulos e alertas que recebem foco por JavaScript (tabindex="-1"): sem contorno
+   quando a navegação veio do mouse; com teclado, o :focus-visible acima vale */
+[tabindex="-1"]:focus:not(:focus-visible) {
+  outline: none;
 }
 
 ::selection {

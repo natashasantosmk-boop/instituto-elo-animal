@@ -1,7 +1,7 @@
 /* ==========================================================
    Instituto Elo Animal – layout.css
    Estrutura macro da página: container, GRID DE 12 COLUNAS,
-   seções e a disposição de cada página.
+   seções e a disposição de cada view da SPA.
    Mobile-first + 5 breakpoints:
      sm 36rem (576px) · md 48rem (768px) · lg 62rem (992px)
      xl 75rem (1200px) · xxl 90rem (1440px)
@@ -86,6 +86,11 @@ body {
   border-bottom: 0;
 }
 
+/* ---------- SPA: o main ocupa a altura livre e guarda as views ---------- */
+.conteudo {
+  min-width: 0;
+}
+
 /* ---------- Cadastro: formulário + coluna lateral ---------- */
 .cadastro {
   padding-block: var(--espaco-5) var(--espaco-6);
@@ -150,7 +155,9 @@ body {
 @media (min-width: 62rem) {
   .col-lg-3 { grid-column: span 3; }
   .col-lg-4 { grid-column: span 4; }
+  .col-lg-5 { grid-column: span 5; }
   .col-lg-6 { grid-column: span 6; }
+  .col-lg-7 { grid-column: span 7; }
   .col-lg-8 { grid-column: span 8; }
 
   /* A coluna lateral do cadastro acompanha a rolagem */
