@@ -4,7 +4,8 @@ import assert from 'node:assert/strict';
 import { projetos, campanhas } from '../../js/dados/conteudo.js';
 import { filtrarProjetos } from '../../js/paginas/projetos.js';
 import { calcularImpacto } from '../../js/paginas/doacoes.js';
-import { situacaoDaCampanha } from '../../js/componentes/cartoes.js';
+import { textoDaContagem } from '../../js/paginas/inicio.js';
+import { situacaoDaCampanha, escolhaDeCampanha } from '../../js/componentes/cartoes.js';
 
 const filtro = (opcoes) => ({ busca: '', categoria: '', ordem: 'titulo', favoritos: false, ...opcoes });
 const ids = (lista) => lista.map((projeto) => projeto.id);
@@ -46,4 +47,29 @@ test('situação da campanha calculada pela data de hoje', () => {
   assert.equal(gatil.texto, 'Meta atingida');
   const ultimoDia = situacaoDaCampanha({ prazo: '2026-10-01', meta: 10, arrecadado: 1 }, hoje);
   assert.equal(ultimoDia.texto, 'Último dia');
+});
+
+test('link antigo de campanha encerrada não vincula a doação (hotfix 3.0.1)', () => {
+  const hoje = new Date(2026, 9, 2);
+  const vacina = escolhaDeCampanha(campanhas.find((c) => c.id === 'vacina-solidaria'), hoje);
+  assert.equal(vacina.vincular, true);
+  assert.equal(vacina.texto, 'Sua doação vai para a campanha Vacina Solidária.');
+  const gatil = escolhaDeCampanha(campanhas.find((c) => c.id === 'reforma-gatil'), hoje);
+  assert.equal(gatil.vincular, false);
+  assert.match(gatil.texto, /já atingiu a meta e foi encerrada.*fundo geral/);
+  const vencida = escolhaDeCampanha({ titulo: 'Inverno', prazo: '2026-07-31', meta: 100, arrecadado: 40 }, hoje);
+  assert.equal(vencida.vincular, false);
+  assert.match(vencida.texto, /foi encerrada em 31 de julho de 2026/);
+});
+
+test('contagem do mutirão antes, durante e depois do evento (hotfix 3.0.1)', () => {
+  const evento = { inicio: '2026-10-17T08:00:00-03:00', fim: '2026-10-17T16:00:00-03:00' };
+  const antes = textoDaContagem(evento, new Date('2026-10-15T06:30:00-03:00').getTime());
+  assert.equal(antes.texto, 'Faltam 2 dias, 1 hora e 30 minutos.');
+  assert.equal(antes.encerrado, false);
+  const durante = textoDaContagem(evento, new Date('2026-10-17T10:00:00-03:00').getTime());
+  assert.match(durante.texto, /acontecendo agora/);
+  const depois = textoDaContagem(evento, new Date('2026-10-18T09:00:00-03:00').getTime());
+  assert.equal(depois.encerrado, true);
+  assert.match(depois.texto, /já aconteceu/);
 });

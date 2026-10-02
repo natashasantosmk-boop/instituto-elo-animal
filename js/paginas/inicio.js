@@ -47,6 +47,29 @@ function prepararIndicadores(lista, sinal) {
   sinal.addEventListener('abort', () => observador.disconnect());
 }
 
+/**
+ * Texto da contagem regressiva em três momentos: antes do mutirão ("Faltam..."),
+ * durante (até o horário de término) e depois dele. Função pura: recebe o "agora".
+ */
+export function textoDaContagem(evento, agora = Date.now()) {
+  const inicio = new Date(evento.inicio).getTime();
+  const fim = new Date(evento.fim).getTime();
+  if (agora >= fim) {
+    return { texto: 'Este mutirão já aconteceu. Obrigado a quem participou! A próxima data será divulgada aqui.', encerrado: true };
+  }
+  if (agora >= inicio) {
+    return { texto: 'O mutirão está acontecendo agora: venha até a sede!', encerrado: false };
+  }
+  const restante = inicio - agora;
+  const dias = Math.floor(restante / 86400000);
+  const horas = Math.floor((restante % 86400000) / 3600000);
+  const minutos = Math.floor((restante % 3600000) / 60000);
+  return {
+    texto: `Faltam ${pluralizar(dias, 'dia', 'dias')}, ${pluralizar(horas, 'hora', 'horas')} e ${pluralizar(minutos, 'minuto', 'minutos')}.`,
+    encerrado: false,
+  };
+}
+
 /** "Faltam 15 dias, 9 horas e 12 minutos" – atualizado a cada minuto. */
 function iniciarContagem(raiz, sinal) {
   const inicio = new Date(proximoEvento.inicio);
@@ -62,19 +85,14 @@ function iniciarContagem(raiz, sinal) {
   $('[data-evento-descricao]', raiz).textContent = proximoEvento.descricao;
 
   const contagem = $('[data-evento-contagem]', raiz);
+  let relogio;
   const atualizar = () => {
-    const restante = inicio - Date.now();
-    if (restante <= 0) {
-      contagem.textContent = 'O mutirão já começou: venha até a sede!';
-      return;
-    }
-    const dias = Math.floor(restante / 86400000);
-    const horas = Math.floor((restante % 86400000) / 3600000);
-    const minutos = Math.floor((restante % 3600000) / 60000);
-    contagem.textContent = `Faltam ${pluralizar(dias, 'dia', 'dias')}, ${pluralizar(horas, 'hora', 'horas')} e ${pluralizar(minutos, 'minuto', 'minutos')}.`;
+    const { texto, encerrado } = textoDaContagem(proximoEvento);
+    contagem.textContent = texto;
+    if (encerrado) clearInterval(relogio); // depois do mutirão não há mais o que contar
   };
+  relogio = setInterval(atualizar, 60000);
   atualizar();
-  const relogio = setInterval(atualizar, 60000);
   sinal.addEventListener('abort', () => clearInterval(relogio)); // sem vazamento ao trocar de página
 }
 

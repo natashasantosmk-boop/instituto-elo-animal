@@ -27,6 +27,25 @@ export function situacaoDaCampanha(campanha, hoje = new Date()) {
   return { aberta: true, dias, texto: `Faltam ${pluralizar(dias, 'dia', 'dias')}`, variante: '' };
 }
 
+/**
+ * Campanha recebida pelo link do cadastro (?campanha=id). Links antigos continuam
+ * circulando depois que a campanha termina (redes sociais, favoritos do navegador):
+ * nesse caso a doação NÃO é vinculada a ela e a pessoa é avisada do motivo.
+ */
+export function escolhaDeCampanha(campanha, hoje = new Date()) {
+  const situacao = situacaoDaCampanha(campanha, hoje);
+  if (situacao.aberta) {
+    return { vincular: true, texto: `Sua doação vai para a campanha ${campanha.titulo}.` };
+  }
+  const motivo = campanha.arrecadado >= campanha.meta
+    ? 'já atingiu a meta e foi encerrada'
+    : `foi encerrada em ${formatarData(campanha.prazo)}`;
+  return {
+    vincular: false,
+    texto: `A campanha ${campanha.titulo} ${motivo}. Sua doação irá para o fundo geral do Instituto, que atende as campanhas abertas.`,
+  };
+}
+
 export function modeloCartaoCampanha(campanha, hoje = new Date()) {
   const situacao = situacaoDaCampanha(campanha, hoje);
   const porcentagem = percentual(campanha.arrecadado, campanha.meta);
