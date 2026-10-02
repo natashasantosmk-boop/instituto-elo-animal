@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { projetos, campanhas } from '../../js/dados/conteudo.js';
 import { filtrarProjetos } from '../../js/paginas/projetos.js';
 import { calcularImpacto } from '../../js/paginas/doacoes.js';
+import { textoDaContagem } from '../../js/paginas/inicio.js';
 import { situacaoDaCampanha, escolhaDeCampanha } from '../../js/componentes/cartoes.js';
 
 const filtro = (opcoes) => ({ busca: '', categoria: '', ordem: 'titulo', favoritos: false, ...opcoes });
@@ -59,4 +60,16 @@ test('link antigo de campanha encerrada não vincula a doação (hotfix 3.0.1)',
   const vencida = escolhaDeCampanha({ titulo: 'Inverno', prazo: '2026-07-31', meta: 100, arrecadado: 40 }, hoje);
   assert.equal(vencida.vincular, false);
   assert.match(vencida.texto, /foi encerrada em 31 de julho de 2026/);
+});
+
+test('contagem do mutirão antes, durante e depois do evento (hotfix 3.0.1)', () => {
+  const evento = { inicio: '2026-10-17T08:00:00-03:00', fim: '2026-10-17T16:00:00-03:00' };
+  const antes = textoDaContagem(evento, new Date('2026-10-15T06:30:00-03:00').getTime());
+  assert.equal(antes.texto, 'Faltam 2 dias, 1 hora e 30 minutos.');
+  assert.equal(antes.encerrado, false);
+  const durante = textoDaContagem(evento, new Date('2026-10-17T10:00:00-03:00').getTime());
+  assert.match(durante.texto, /acontecendo agora/);
+  const depois = textoDaContagem(evento, new Date('2026-10-18T09:00:00-03:00').getTime());
+  assert.equal(depois.encerrado, true);
+  assert.match(depois.texto, /já aconteceu/);
 });
