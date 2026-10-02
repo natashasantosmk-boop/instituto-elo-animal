@@ -1,0 +1,93 @@
+<!-- View: Projetos (rota #/projetos) – controlador: js/paginas/projetos.js -->
+
+<section class="cabecalho-pagina" aria-labelledby="titulo-pagina">
+  <div class="container">
+    <nav class="migalhas" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="#/">Início</a></li>
+        <li><span aria-current="page">Projetos sociais</span></li>
+      </ol>
+    </nav>
+    <h1 id="titulo-pagina">Projetos sociais</h1>
+    <p class="secao__intro">Nossas iniciativas seguem o conceito de Saúde Única: ao cuidar dos animais de famílias em situação de vulnerabilidade, prevenimos zoonoses, reduzimos o abandono e fortalecemos a comunidade.</p>
+  </div>
+</section>
+
+<!-- Lista filtrável: busca, categoria, ordem e favoritos (eventos input e change) -->
+<section class="secao secao--compacta" aria-labelledby="titulo-lista">
+  <div class="container">
+    <h2 id="titulo-lista">Encontre um projeto</h2>
+    <form class="filtros" role="search" aria-label="Filtrar projetos" data-filtros>
+      <div class="campo filtros__busca">
+        <label for="busca-projetos">Buscar por palavra</label>
+        <input type="search" id="busca-projetos" name="busca" maxlength="60" autocomplete="off"
+               placeholder="Ex.: vacina, escola, gato" aria-describedby="dica-busca">
+        <small id="dica-busca" class="dica">A lista atualiza enquanto você digita.</small>
+      </div>
+      <fieldset class="filtros__categorias">
+        <legend>Categoria</legend>
+        <div class="chips">
+          <span class="chip"><input type="radio" id="categoria-todas" name="categoria" value="" checked><label for="categoria-todas">Todas</label></span>
+          <span class="chip"><input type="radio" id="categoria-saude" name="categoria" value="saude"><label for="categoria-saude">Saúde animal</label></span>
+          <span class="chip"><input type="radio" id="categoria-educacao" name="categoria" value="educacao"><label for="categoria-educacao">Educação</label></span>
+          <span class="chip"><input type="radio" id="categoria-adocao" name="categoria" value="adocao"><label for="categoria-adocao">Adoção</label></span>
+        </div>
+      </fieldset>
+      <div class="campo filtros__ordem">
+        <label for="ordem-projetos">Ordenar por</label>
+        <select id="ordem-projetos" name="ordem">
+          <option value="titulo">Nome (A a Z)</option>
+          <option value="voluntarios">Mais voluntários</option>
+          <option value="bairros">Mais bairros alcançados</option>
+        </select>
+      </div>
+      <div class="opcao filtros__favoritos">
+        <input type="checkbox" id="so-favoritos" name="favoritos" value="sim">
+        <label for="so-favoritos">Mostrar só meus favoritos</label>
+      </div>
+    </form>
+
+    <!-- role="status": o leitor de tela anuncia a quantidade encontrada a cada filtro -->
+    <p class="filtros__resultado" role="status" data-resultado></p>
+    <div class="grade" data-lista-projetos></div>
+    <div class="estado-vazio" data-vazio hidden>
+      <p><strong>Nenhum projeto encontrado.</strong> Tente outra palavra, outra categoria ou desmarque “só favoritos”.</p>
+      <button type="button" class="botao botao--contorno" data-limpar-filtros>Limpar filtros</button>
+    </div>
+  </div>
+</section>
+
+<section class="secao secao--suave" aria-labelledby="titulo-resultados">
+  <div class="container">
+    <h2 id="titulo-resultados">Resultados por projeto</h2>
+    <!-- No celular a tabela rola na horizontal dentro da caixa; tabindex="0" permite rolar pelo teclado -->
+    <div class="tabela-rolagem" role="region" aria-labelledby="legenda-resultados" tabindex="0">
+      <table class="tabela">
+        <caption id="legenda-resultados">Indicadores dos projetos sociais em 2025</caption>
+        <thead>
+          <tr>
+            <th scope="col">Projeto</th>
+            <th scope="col">Resultado em 2025</th>
+            <th scope="col">Voluntários envolvidos</th>
+            <th scope="col">Bairros alcançados</th>
+          </tr>
+        </thead>
+        <tbody data-tabela-resultados></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="voluntariado" class="secao" aria-labelledby="titulo-voluntariado">
+  <div class="container">
+    <h2 id="titulo-voluntariado">Como ser voluntário</h2>
+    <p class="secao__intro">Qualquer pessoa com 18 anos ou mais pode participar, com ou sem formação na área da saúde. O caminho tem quatro passos:</p>
+    <ol class="passos grade">
+      <li class="col-sm-6 col-lg-3"><span><strong>Faça seu cadastro</strong> e marque as áreas em que quer atuar.</span></li>
+      <li class="col-sm-6 col-lg-3"><span><strong>Participe da integração on-line</strong> (2 horas) sobre Saúde Única, bem-estar animal e segurança.</span></li>
+      <li class="col-sm-6 col-lg-3"><span><strong>Combine sua escala</strong> com a coordenação do projeto escolhido.</span></li>
+      <li class="col-sm-6 col-lg-3"><span><strong>Receba o certificado</strong> das suas horas voluntárias a cada semestre.</span></li>
+    </ol>
+    <a class="botao botao--secundario" href="#/cadastro?tipo=voluntario">Quero ser voluntário</a>
+  </div>
+</section>

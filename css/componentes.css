@@ -195,6 +195,7 @@ html:not(.js) .menu__lista {
   align-items: center;
   flex: 1;
   min-height: var(--altura-toque-minima);
+  white-space: nowrap; /* "Minha área" e "Cadastre-se" nunca quebram em duas linhas */
   padding: var(--espaco-2) var(--espaco-3);
   border-radius: var(--raio-medio);
   color: var(--cor-neutra-900);
@@ -1497,6 +1498,649 @@ textarea[aria-invalid="true"] {
 }
 
 /* ==========================================================
+   15. Estrutura da SPA: contêiner das views, carregamento e erros
+   ========================================================== */
+/* O main recebe o foco do link "Pular para o conteúdo" e das trocas de página */
+.conteudo:focus {
+  outline: none;
+}
+
+/* Cada view nova entra com um leve "fade" (desligado com menos movimento) */
+.conteudo > * {
+  animation: aparecer 250ms ease-out both;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(var(--espaco-2));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Troca demorada: barra fina animada no topo, sem esconder o conteúdo */
+.conteudo--carregando {
+  position: relative;
+}
+
+.conteudo--carregando::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--camada-menu);
+  width: 40%;
+  height: 4px;
+  background-color: var(--cor-secundaria-500);
+  animation: progresso-indeterminado 1s ease-in-out infinite;
+}
+
+@keyframes progresso-indeterminado {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(250%);
+  }
+}
+
+.carregando-inicial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-3);
+  min-height: 50vh;
+  color: var(--cor-neutra-600);
+}
+
+.carregando-inicial::before {
+  content: "";
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--cor-primaria-500);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: girar 700ms linear infinite;
+}
+
+.carregando-inicial p {
+  margin: 0;
+}
+
+.erro-rota {
+  min-height: 50vh;
+}
+
+.secao--compacta {
+  padding-block: var(--espaco-5);
+}
+
+/* Contador de favoritos ao lado de "Minha área" */
+.contador {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  margin-left: var(--espaco-2);
+  padding: 0 var(--espaco-2);
+  border-radius: var(--raio-pilula);
+  background-color: var(--cor-secundaria-500);
+  color: var(--cor-branca);
+  font-size: var(--fonte-tamanho-1);
+  font-weight: var(--fonte-peso-forte);
+  line-height: 1;
+}
+
+.contador--titulo {
+  height: auto;
+  margin-left: var(--espaco-1);
+  padding: 0;
+  background: none;
+  color: var(--cor-neutra-600);
+  font-size: 0.7em;
+}
+
+/* ==========================================================
+   16. Filtros da lista de projetos (busca, chips, ordem)
+   ========================================================== */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--espaco-3) var(--espaco-4);
+  margin-bottom: var(--espaco-3);
+  padding: var(--espaco-4);
+  background-color: var(--cor-branca);
+  border: var(--borda-fina);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-1);
+}
+
+.filtros__busca {
+  flex: 1 1 16rem;
+}
+
+.filtros__ordem {
+  flex: 0 1 14rem;
+}
+
+.filtros__categorias {
+  flex: 1 1 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.filtros__categorias legend {
+  margin-bottom: var(--espaco-2);
+  padding: 0;
+  font-weight: var(--fonte-peso-medio);
+}
+
+/* Alinha a caixa de seleção com a base do campo "Ordenar por" */
+.filtros__favoritos {
+  align-self: flex-end;
+  align-items: center;
+  min-height: var(--altura-toque-minima);
+}
+
+.filtros__favoritos input {
+  margin-top: 0;
+}
+
+.filtros input[type="search"] {
+  padding-left: calc(var(--espaco-3) + 1.5rem);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5' fill='none' stroke='%234a5a55' stroke-width='2'/%3E%3Cpath d='M13 13l4.5 4.5' stroke='%234a5a55' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left var(--espaco-3) center;
+  background-size: 1.1rem;
+}
+
+/* Chips: radios de verdade (teclado com setas, um só marcado), com visual de pílula */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2);
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+}
+
+.chip input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.chip label {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--altura-toque-minima);
+  padding: var(--espaco-1) var(--espaco-4);
+  border: 2px solid var(--cor-primaria-500);
+  border-radius: var(--raio-pilula);
+  background-color: var(--cor-branca);
+  color: var(--cor-primaria-700);
+  font-weight: var(--fonte-peso-medio);
+  transition: background-color var(--transicao), color var(--transicao);
+}
+
+.chip input:hover + label {
+  background-color: var(--cor-primaria-100);
+}
+
+/* Marcado: fundo cheio e um "✓" desenhado com bordas (a cor não é o único sinal) */
+.chip input:checked + label {
+  gap: var(--espaco-2);
+  background-color: var(--cor-primaria-500);
+  color: var(--cor-branca);
+}
+
+.chip input:checked + label::before {
+  content: "";
+  width: 0.35rem;
+  height: 0.7rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-1px) rotate(45deg);
+}
+
+.chip input:focus-visible + label {
+  outline: 3px solid var(--cor-secundaria-500);
+  outline-offset: 3px;
+}
+
+.filtros__resultado {
+  margin: 0 0 var(--espaco-4);
+  font-weight: var(--fonte-peso-medio);
+  color: var(--cor-neutra-600);
+}
+
+/* Lista vazia (filtro sem resultado, nenhuma inscrição...) */
+.estado-vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--espaco-3);
+  padding: var(--espaco-5);
+  border: 2px dashed var(--cor-neutra-200);
+  border-radius: var(--raio-grande);
+  background-color: var(--cor-branca);
+}
+
+.estado-vazio p {
+  margin: 0;
+}
+
+/* ==========================================================
+   17. Botão de favorito (coração)
+   ========================================================== */
+.favorito {
+  position: relative;
+  z-index: 2; /* acima do "link esticado" do cartão interativo */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-2);
+  min-width: var(--altura-toque-minima);
+  min-height: var(--altura-toque-minima);
+  padding: 0 var(--espaco-2);
+  border: 2px solid transparent;
+  border-radius: var(--raio-pilula);
+  background-color: transparent;
+  color: var(--cor-secundaria-500);
+  font: inherit;
+  font-weight: var(--fonte-peso-medio);
+  cursor: pointer;
+  transition: background-color var(--transicao), border-color var(--transicao);
+}
+
+.favorito:hover {
+  background-color: var(--cor-secundaria-100);
+}
+
+/* Coração vazado; marcado (aria-pressed="true"), vira coração cheio */
+.favorito__icone {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z' fill='none' stroke='%23000' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z' fill='none' stroke='%23000' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.favorito[aria-pressed="true"] .favorito__icone {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z' fill='%23000' stroke='%23000' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z' fill='%23000' stroke='%23000' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+  animation: pulsar 300ms ease-out;
+}
+
+@keyframes pulsar {
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+.favorito--com-texto {
+  padding: 0 var(--espaco-3);
+  border-color: var(--cor-secundaria-500);
+  background-color: var(--cor-branca);
+}
+
+.favorito--com-texto[aria-pressed="true"] {
+  background-color: var(--cor-secundaria-100);
+}
+
+/* ==========================================================
+   18. Detalhe do projeto
+   ========================================================== */
+.cabecalho-pagina__linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  margin-bottom: var(--espaco-3);
+}
+
+.cabecalho-pagina__linha h1 {
+  margin: 0;
+}
+
+.cabecalho-pagina .etiquetas {
+  margin: 0;
+}
+
+.projeto__texto h2 {
+  margin-top: var(--espaco-4);
+  font-size: var(--fonte-tamanho-3);
+}
+
+.indicadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--espaco-3);
+  margin: 0 0 var(--espaco-4);
+}
+
+.indicadores div {
+  display: flex;
+  flex-direction: column-reverse; /* número em cima, rótulo embaixo (a leitura segue dt -> dd) */
+  gap: var(--espaco-1);
+  padding: var(--espaco-3);
+  border-radius: var(--raio-grande);
+  background-color: var(--cor-primaria-100);
+}
+
+.indicadores dt {
+  font-size: var(--fonte-tamanho-1);
+  color: var(--cor-neutra-600);
+}
+
+.indicadores dd {
+  margin: 0;
+  font-size: var(--fonte-tamanho-3);
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-primaria-700);
+}
+
+.paginacao-projetos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  padding-block: var(--espaco-5) var(--espaco-6);
+  border-top: var(--borda-fina);
+}
+
+.paginacao-projetos__link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-1);
+  min-height: var(--altura-toque-minima);
+  font-weight: var(--fonte-peso-forte);
+  text-decoration: none;
+}
+
+.paginacao-projetos__link--proximo {
+  margin-left: auto;
+  text-align: right;
+}
+
+.paginacao-projetos__rotulo {
+  font-size: var(--fonte-tamanho-1);
+  font-weight: var(--fonte-peso-normal);
+  color: var(--cor-neutra-600);
+}
+
+.paginacao-projetos__link:hover span:last-child {
+  text-decoration: underline;
+}
+
+/* ==========================================================
+   19. Campanhas, simulador de doação e contagem regressiva
+   ========================================================== */
+.etiqueta--sucesso {
+  background-color: var(--cor-primaria-500);
+  color: var(--cor-branca);
+}
+
+.campanha--encerrada {
+  background-color: var(--cor-neutra-50);
+  box-shadow: none;
+}
+
+.campanha--encerrada progress::-webkit-progress-value {
+  background-color: var(--cor-primaria-500);
+}
+
+.campanha--encerrada progress::-moz-progress-bar {
+  background-color: var(--cor-primaria-500);
+}
+
+.campanha__prazo {
+  margin: 0;
+  font-size: var(--fonte-tamanho-1);
+}
+
+.campanha__encerrada {
+  font-weight: var(--fonte-peso-medio);
+  color: var(--cor-primaria-700);
+}
+
+.simulador {
+  gap: var(--espaco-4);
+}
+
+.simulador input[type="range"] {
+  min-height: var(--altura-toque-minima);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  accent-color: var(--cor-secundaria-500);
+  cursor: pointer;
+}
+
+.simulador__valor {
+  margin: 0;
+  font-size: var(--fonte-tamanho-4);
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-secundaria-700);
+}
+
+.simulador__resultado {
+  min-height: 100%;
+}
+
+.simulador__titulo {
+  margin: 0;
+  font-weight: var(--fonte-peso-forte);
+}
+
+.simulador__resultado .simulador__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  padding: 0;
+  list-style: none;
+}
+
+.simulador__lista li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--espaco-2);
+  padding: var(--espaco-2) var(--espaco-3);
+  border-radius: var(--raio-medio);
+  background-color: var(--cor-primaria-100);
+}
+
+.simulador__lista strong {
+  min-width: 4.5rem;
+  font-size: var(--fonte-tamanho-3);
+  color: var(--cor-primaria-700);
+}
+
+.aviso__contagem {
+  font-size: var(--fonte-tamanho-3);
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-foco-escuro);
+}
+
+/* ==========================================================
+   20. Gráficos (Chart.js) e tabelas de apoio
+   ========================================================== */
+.grafico {
+  margin: 0;
+  padding: var(--espaco-4);
+  border: var(--borda-fina);
+  border-radius: var(--raio-grande);
+  background-color: var(--cor-branca);
+  box-shadow: var(--sombra-1);
+}
+
+/* O Chart.js ocupa toda a área: a altura vem daqui (maintainAspectRatio: false) */
+.grafico__area {
+  position: relative;
+  height: 20rem;
+}
+
+.grafico__area--larga {
+  height: 22rem;
+}
+
+.grafico figcaption {
+  margin-top: var(--espaco-3);
+  font-size: var(--fonte-tamanho-1);
+  color: var(--cor-neutra-600);
+}
+
+.grafico-bloco {
+  align-items: start;
+}
+
+.aviso-grafico {
+  margin-top: var(--espaco-4);
+  margin-bottom: 0;
+  font-weight: var(--fonte-peso-medio);
+  color: var(--cor-neutra-600);
+}
+
+.aviso-grafico:empty {
+  display: none;
+}
+
+.aviso-grafico--erro {
+  color: var(--cor-alerta-700);
+}
+
+.tabela--compacta {
+  min-width: 18rem;
+}
+
+.detalhes-tabela {
+  margin-top: var(--espaco-4);
+}
+
+.detalhes-tabela summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--altura-toque-minima);
+  margin-bottom: var(--espaco-3);
+  font-weight: var(--fonte-peso-forte);
+  color: var(--cor-primaria-700);
+  cursor: pointer;
+}
+
+/* ==========================================================
+   21. Minha área: inscrições, favoritos e preferências
+   ========================================================== */
+.minha-area {
+  padding-bottom: var(--espaco-5);
+}
+
+.minha-area > .secao + .secao {
+  border-top: var(--borda-fina);
+}
+
+.lista-inscricoes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lista-inscricoes > li {
+  grid-column: span 12;
+}
+
+.dados-lista {
+  display: grid;
+  gap: var(--espaco-2);
+  margin: 0;
+}
+
+.dados-lista div {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: var(--espaco-2);
+}
+
+.dados-lista dt {
+  font-weight: var(--fonte-peso-medio);
+  color: var(--cor-neutra-600);
+}
+
+.dados-lista dd {
+  margin: 0;
+}
+
+.favoritos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.favoritos__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-3);
+  padding: var(--espaco-2) var(--espaco-2) var(--espaco-2) var(--espaco-4);
+  border: var(--borda-fina);
+  border-radius: var(--raio-grande);
+  background-color: var(--cor-branca);
+}
+
+.favoritos__item a {
+  font-weight: var(--fonte-peso-forte);
+}
+
+.preferencias {
+  max-width: 40rem;
+}
+
+.preferencias .subgrupo {
+  margin-bottom: var(--espaco-3);
+}
+
+.formulario__rascunho {
+  margin: 0;
+}
+
+.nao-encontrada {
+  min-height: 40vh;
+}
+
+.nao-encontrada__links {
+  margin: var(--espaco-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ==========================================================
    Breakpoints dos componentes (mesmos valores do layout.css)
    ========================================================== */
 
@@ -1517,8 +2161,9 @@ textarea[aria-invalid="true"] {
   }
 }
 
-/* md (≥ 768 px): menu horizontal, sem hambúrguer, e submenu suspenso (dropdown) */
-@media (min-width: 48rem) {
+/* lg (≥ 992 px): menu horizontal, sem hambúrguer, e submenu suspenso (dropdown).
+   Com 6 itens no menu da SPA, o hambúrguer vale até 991 px (antes era até 767 px) */
+@media (min-width: 62rem) {
   .js .menu__botao {
     display: none;
   }
@@ -1569,6 +2214,19 @@ textarea[aria-invalid="true"] {
     visibility: visible;
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Entre 992 e 1199 px os 6 itens do menu ocupam quase toda a largura: o nome da ONG
+   fica só para leitores de tela (o logotipo continua visível e leva ao início) */
+@media (min-width: 62rem) and (max-width: 74.98rem) {
+  .marca__nome {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
   }
 }
 
