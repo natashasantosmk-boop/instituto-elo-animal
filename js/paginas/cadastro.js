@@ -13,6 +13,7 @@
  * A exibição dos erros é do componente reutilizável componentes/validacao.js.
  */
 import { campanhas } from '../dados/conteudo.js';
+import { escolhaDeCampanha } from '../componentes/cartoes.js';
 import * as armazenamento from '../core/armazenamento.js';
 import { criarValidador } from '../componentes/validacao.js';
 import { confirmar } from '../componentes/modal.js';
@@ -189,9 +190,11 @@ export function montar({ raiz, consulta, sinal }) {
   if (valor >= 10 && valor <= 10000) campos.valor.value = String(Math.round(valor));
   const campanha = campanhas.find((item) => item.id === consulta.get('campanha'));
   if (campanha) {
-    campos.campanha.value = campanha.id;
+    // Link antigo de campanha já encerrada: avisa e não vincula a doação a ela
+    const { vincular, texto } = escolhaDeCampanha(campanha);
+    if (vincular) campos.campanha.value = campanha.id;
     const aviso = $('[data-campanha-escolhida]', raiz);
-    aviso.textContent = `Sua doação vai para a campanha ${campanha.titulo}.`;
+    aviso.textContent = texto;
     aviso.hidden = false;
   }
 

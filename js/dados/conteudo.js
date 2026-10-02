@@ -207,6 +207,7 @@ export const perguntas = [
 export const proximoEvento = {
   titulo: 'Próximo mutirão de castração',
   inicio: '2026-10-17T08:00:00-03:00',
+  fim: '2026-10-17T16:00:00-03:00',
   descricao: 'na sede do Instituto. Atendimento gratuito para famílias inscritas no CadÚnico.',
 };
 
