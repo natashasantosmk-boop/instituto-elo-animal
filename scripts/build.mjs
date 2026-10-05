@@ -7,13 +7,14 @@
  *     (code splitting): o main.js leva só o que toda página usa e cada
  *     controlador de página vira um pedaço baixado sob demanda. Os nomes
  *     levam um hash do conteúdo (cache busting) e há source maps;
- *  2. CSS: os 5 arquivos do design system viram 1 só, minificado pelo
+ *  2. Chart.js: versão enxuta só com os gráficos usados (tree-shaking),
+ *     servida pelo próprio site, sem depender da CDN;
+ *  3. CSS: os 5 arquivos do design system viram 1 só, minificado pelo
  *     Lightning CSS com prefixos para os navegadores-alvo;
- *  3. HTML: index, views e moldes minificados (comentários e espaços);
+ *  4. HTML: index, views e moldes minificados (comentários e espaços);
  *     o index ganha <link rel="modulepreload"> e preload dos moldes;
- *  4. Imagens: SVG otimizados com o SVGO e PNG recomprimidos com o sharp;
- *  5. 404.html: quem digitar um caminho (/projetos) cai na rota #/projetos;
- *  6. js/vendor: a cópia local do Chart.js vai junto, como está.
+ *  5. Imagens: SVG otimizados com o SVGO e PNG recomprimidos com o sharp;
+ *  6. 404.html: quem digitar um caminho (/projetos) cai na rota #/projetos.
  * No fim, mostra uma tabela com o tamanho antes e depois (bruto e gzip).
  *
  * Uso: npm run build   (variável opcional BASE_PATH, padrão "/")
@@ -107,11 +108,26 @@ async function construirJavaScript() {
   return { principal, preCarregar };
 }
 
-async function copiarVendor() {
-  await fs.mkdir(path.join(SAIDA, 'js/vendor'), { recursive: true });
-  for (const arquivo of ['chart.umd.min.js', 'chart.js-LICENSE.md']) {
-    await fs.copyFile(path.join(RAIZ, 'js/vendor', arquivo), path.join(SAIDA, 'js/vendor', arquivo));
+async function construirChartJs() {
+  const versao = JSON.parse(await ler('node_modules/chart.js/package.json')).version;
+  // o carregador (js/core/bibliotecas.js) pede exatamente esta versão: se divergir, o build para
+  if (!(await ler('js/core/bibliotecas.js')).toString().includes(`VERSAO_CHART_JS = '${versao}'`)) {
+    throw new Error(`chart.js ${versao} instalado não é a versão de js/core/bibliotecas.js`);
   }
+  const destino = `js/vendor/chart-${versao}.min.js`;
+  const resultado = await build({
+    absWorkingDir: RAIZ,
+    entryPoints: ['scripts/chart-enxuto.js'],
+    bundle: true,
+    minify: true,
+    format: 'iife',
+    target: ALVOS_JS,
+    legalComments: 'eof',
+    write: false,
+  });
+  await escrever(destino, resultado.outputFiles[0].contents, 'js/vendor/chart.umd.min.js', 'chart.js');
+  await fs.copyFile(path.join(RAIZ, 'js/vendor/chart.js-LICENSE.md'), path.join(SAIDA, 'js/vendor/chart.js-LICENSE.md'));
+  return destino;
 }
 
 async function construirCss() {
@@ -123,7 +139,7 @@ async function construirCss() {
   return destino;
 }
 
-async function construirHtml({ css, js, preCarregar }) {
+async function construirHtml({ css, js, preCarregar, chart }) {
   let index = (await ler('index.html')).toString();
   // 5 <link rel="stylesheet"> viram 1
   const links = CSS_NA_ORDEM.map((nome) => `  <link rel="stylesheet" href="css/${nome}.css">\n`);
@@ -150,6 +166,7 @@ async function construirHtml({ css, js, preCarregar }) {
   // GitHub Pages devolve o 404.html para caminhos que não existem: /projetos vira #/projetos
   const pagina404 = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Redirecionando… | Instituto Elo Animal</title><script>(function(){var base=${JSON.stringify(BASE)};var caminho=location.pathname.indexOf(base)===0?location.pathname.slice(base.length):location.pathname.slice(1);location.replace(base+'#/'+caminho.replace(/\\/+$/,'')+location.search);})();</script></head><body><p>Página não encontrada. <a href="${BASE}">Ir para o início do Instituto Elo Animal</a>.</p></body></html>`;
   await escrever('404.html', pagina404, false);
+  return chart;
 }
 
 async function otimizarImagens() {
@@ -209,8 +226,8 @@ function imprimirRelatorio() {
 
 const inicio = performance.now();
 await fs.rm(SAIDA, { recursive: true, force: true });
-const [{ principal, preCarregar }, css] = await Promise.all([construirJavaScript(), construirCss(), copiarVendor()]);
-await construirHtml({ css, js: principal, preCarregar });
+const [{ principal, preCarregar }, css, chart] = await Promise.all([construirJavaScript(), construirCss(), construirChartJs()]);
+await construirHtml({ css, js: principal, preCarregar, chart });
 await otimizarImagens();
 imprimirRelatorio();
 console.log(`Build concluído em ${Math.round(performance.now() - inicio)} ms → dist/`);
