@@ -950,6 +950,15 @@ textarea:focus-visible {
   box-shadow: 0 0 0 4px var(--cor-superficie-suave);
 }
 
+/* Campo de data: o botão do calendário fica dentro do campo (shadow DOM) e recebe o foco
+   com Tab, mas aí o campo deixa de casar com :focus-visible e o contorno sumia.
+   :focus-within enxerga o foco lá dentro e mantém o contorno (WCAG 2.4.7) */
+input[type="date"]:focus-within {
+  border-color: var(--cor-acento);
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 1px;
+}
+
 input:disabled,
 select:disabled,
 textarea:disabled {
