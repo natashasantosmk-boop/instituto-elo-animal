@@ -1,8 +1,11 @@
 /* ==========================================================
    Instituto Elo Animal – variaveis.css
-   DESIGN SYSTEM: todos os "tokens" visuais do projeto.
-   Os outros arquivos CSS usam apenas estas variáveis; para
-   mudar uma cor, fonte ou medida, basta alterar aqui.
+   DESIGN SYSTEM: todos os "tokens" visuais do projeto, em duas camadas:
+   1. PALETA (cores primitivas, com o nome do tom: --cor-primaria-500);
+   2. TOKENS SEMÂNTICOS (o papel da cor: --cor-texto, --cor-superficie...).
+   Os componentes usam a camada semântica; os temas (claro, escuro e
+   contraste reforçado) só trocam os valores semânticos, e a paleta fica
+   igual. Assim um tema novo não exige mexer em nenhum componente.
    ========================================================== */
 
 :root {
@@ -25,6 +28,7 @@
   --cor-branca: #ffffff;
 
   /* ---------- Cores de feedback ---------- */
+  --cor-erro-700: #8f1d14;
   --cor-erro-500: #b42318;
   --cor-erro-100: #fdecea;
   --cor-alerta-700: #7a4d00;
@@ -32,6 +36,52 @@
   --cor-info-500: #1a5fb4;
   --cor-info-100: #e8f0fb;
   --cor-foco-escuro: #ffd166; /* anel de foco sobre fundos escuros */
+
+  /* ---------- Rodapé (escuro nos dois temas) ---------- */
+  --cor-rodape-fundo: #10231d;
+  --cor-rodape-texto: #e6efe9;
+  --cor-rodape-link: #bfe6d3;
+  --cor-rodape-borda: #2c4a3f;
+  --cor-rodape-aviso: #c5d6ce;
+
+  /* ---------- TOKENS SEMÂNTICOS – tema claro (padrão) ----------
+     Razões de contraste conferidas por script (WCAG 2.1 AA): texto ≥ 4,5:1
+     e bordas de campos, ícones e foco ≥ 3:1 sobre os fundos em que aparecem. */
+  color-scheme: light; /* controles nativos (data, select, barras de rolagem) no tema claro */
+  --cor-fundo: var(--cor-neutra-50);
+  --cor-superficie: var(--cor-branca);            /* cartões, cabeçalho, campos, tabelas */
+  --cor-superficie-suave: var(--cor-primaria-100); /* faixas e realces esverdeados */
+  --cor-superficie-alternada: var(--cor-neutra-50); /* linhas pares, rodapé do modal, desabilitado */
+  --cor-texto: var(--cor-neutra-900);             /* 14:1 sobre o fundo */
+  --cor-texto-suave: var(--cor-neutra-600);       /* 6,9:1 */
+  --cor-titulo: var(--cor-primaria-700);
+  --cor-link: var(--cor-primaria-500);
+  --cor-link-hover: var(--cor-primaria-700);
+  --cor-acento: var(--cor-primaria-500);          /* bordas e ícones de elementos interativos */
+  --cor-borda: var(--cor-neutra-200);             /* divisórias (decorativas) */
+  --cor-borda-campo: var(--cor-neutra-400);       /* borda de campos: 3,5:1 */
+  --cor-destaque: var(--cor-primaria-500);        /* preenchimentos fortes com texto branco */
+  --cor-destaque-forte: var(--cor-primaria-700);
+  --cor-sobre-destaque: var(--cor-branca);
+  --cor-acao: var(--cor-secundaria-500);          /* chamadas para ação (terracota) */
+  --cor-acao-forte: var(--cor-secundaria-700);
+  --cor-acao-texto: var(--cor-secundaria-700);    /* terracota usada como texto ou ícone */
+  --cor-acao-suave: var(--cor-secundaria-100);
+  --cor-foco: var(--cor-secundaria-500);          /* anel de foco */
+  --cor-progresso: var(--cor-secundaria-500);
+  --cor-progresso-concluido: var(--cor-primaria-500);
+  --cor-erro: var(--cor-erro-500);
+  --cor-erro-texto: var(--cor-erro-500);
+  --cor-erro-suave: var(--cor-erro-100);
+  --cor-alerta: var(--cor-alerta-700);
+  --cor-alerta-texto: var(--cor-alerta-700);
+  --cor-alerta-suave: var(--cor-alerta-100);
+  --cor-info: var(--cor-info-500);
+  --cor-info-texto: var(--cor-info-500);
+  --cor-info-suave: var(--cor-info-100);
+  /* Ícones em SVG embutido: a cor do traço muda com o tema */
+  --icone-valido: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='%230b6e4f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --icone-busca: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5' fill='none' stroke='%234a5a55' stroke-width='2'/%3E%3Cpath d='M13 13l4.5 4.5' stroke='%234a5a55' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
 
   /* ---------- Tipografia (escala modular 1,25 a partir de 16 px) ---------- */
   --fonte-familia: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -62,9 +112,10 @@
   --raio-medio: 8px;
   --raio-grande: 12px;
   --raio-pilula: 999px;
-  --borda-fina: 1px solid var(--cor-neutra-200);
+  --borda-fina: 1px solid var(--cor-borda);
   --sombra-1: 0 2px 8px rgba(16, 35, 29, 0.08);
   --sombra-2: 0 12px 28px rgba(16, 35, 29, 0.16);
+  --sombra-fundo-modal: rgba(16, 35, 29, 0.6);
   --transicao: 200ms ease;
 
   /* ---------- Camadas (z-index) ---------- */

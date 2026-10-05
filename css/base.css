@@ -60,8 +60,8 @@ body {
   font-size: var(--fonte-tamanho-2);
   font-weight: var(--fonte-peso-normal);
   line-height: var(--altura-linha-texto);
-  color: var(--cor-neutra-900);
-  background-color: var(--cor-neutra-50);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
   overflow-wrap: break-word; /* e-mails e palavras longas não estouram a tela */
 }
 
@@ -73,7 +73,7 @@ h4 {
   margin: 0 0 var(--espaco-3);
   line-height: var(--altura-linha-titulo);
   font-weight: var(--fonte-peso-forte);
-  color: var(--cor-primaria-700);
+  color: var(--cor-titulo);
 }
 
 h1 {
@@ -113,18 +113,18 @@ svg {
 }
 
 a {
-  color: var(--cor-primaria-500);
+  color: var(--cor-link);
   text-underline-offset: 0.2em;
   transition: color var(--transicao);
 }
 
 a:hover {
-  color: var(--cor-primaria-700);
+  color: var(--cor-link-hover);
 }
 
 /* Foco bem visível para quem navega pelo teclado */
 :focus-visible {
-  outline: 3px solid var(--cor-secundaria-500);
+  outline: 3px solid var(--cor-foco);
   outline-offset: 3px;
 }
 
@@ -135,13 +135,14 @@ a:hover {
 }
 
 ::selection {
-  background-color: var(--cor-primaria-100);
-  color: var(--cor-primaria-700);
+  background-color: var(--cor-superficie-suave);
+  color: var(--cor-titulo);
 }
 
 address {
   font-style: normal;
 }
+
 
 [hidden] {
   display: none !important;
