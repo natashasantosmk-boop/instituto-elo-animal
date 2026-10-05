@@ -2286,6 +2286,10 @@ textarea[aria-invalid="true"] {
     visibility: visible;
     opacity: 1;
     transform: none;
+    /* Abre na hora (visibility sem transição): com a transição, os links só ficavam
+       focáveis no quadro seguinte e um Tab rápido pulava o submenu. Ao fechar, vale a
+       transição da regra acima e o submenu some suavemente. */
+    transition: opacity var(--transicao), transform var(--transicao), visibility 0s;
   }
 }
 
