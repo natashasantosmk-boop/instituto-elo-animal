@@ -20,7 +20,8 @@
     "test:e2e": "playwright test",
     "test:a11y": "playwright test testes/e2e/acessibilidade.spec.js",
     "build": "node scripts/build.mjs",
-    "preview": "serve -l 5600 dist -c ../serve.json"
+    "preview": "serve -l 5600 dist -c ../serve.json",
+    "hooks": "git config core.hooksPath .githooks"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
