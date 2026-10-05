@@ -2142,6 +2142,67 @@ textarea[aria-invalid="true"] {
 }
 
 /* ==========================================================
+   22. Cores forçadas (forced-colors: modo de alto contraste do Windows)
+   Nesse modo o navegador troca todas as cores pelas do sistema e apaga
+   fundos e sombras. Tudo o que era desenhado só com background-color
+   sumia: as três linhas do botão Menu, o coração de favorito e as
+   barras de progresso. Os ajustes devolvem essas informações usando as
+   cores do sistema (ButtonText, Highlight, CanvasText...).
+   ========================================================== */
+@media (forced-colors: active) {
+  /* Ícones desenhados com fundo: passam a usar a cor de texto do sistema */
+  .menu__icone,
+  .menu__icone::before,
+  .menu__icone::after,
+  .favorito__icone {
+    forced-color-adjust: none;
+    background-color: ButtonText;
+  }
+
+  .menu__botao[aria-expanded="true"] .menu__icone {
+    background-color: transparent;
+  }
+
+  /* Barras de progresso: trilho com contorno e parte preenchida em Highlight */
+  progress {
+    forced-color-adjust: none;
+    border: 1px solid CanvasText;
+    background-color: Canvas;
+  }
+
+  progress::-webkit-progress-bar {
+    background-color: Canvas;
+  }
+
+  progress::-webkit-progress-value,
+  .campanha--encerrada progress::-webkit-progress-value {
+    background-color: Highlight;
+  }
+
+  progress::-moz-progress-bar,
+  .campanha--encerrada progress::-moz-progress-bar {
+    background-color: Highlight;
+  }
+
+  /* Chip marcado: além do "✓", fundo de seleção do sistema */
+  .chip input:checked + label {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  /* Elementos que eram só um fundo colorido ganham contorno */
+  .menu__link--destaque,
+  .etiqueta,
+  .selo,
+  .contador,
+  .passos li::before {
+    border: 1px solid currentColor;
+  }
+}
+
+/* ==========================================================
    Breakpoints dos componentes (mesmos valores do layout.css)
    ========================================================== */
 
