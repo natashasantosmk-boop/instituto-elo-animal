@@ -79,6 +79,11 @@
   --cor-info: var(--cor-info-500);
   --cor-info-texto: var(--cor-info-500);
   --cor-info-suave: var(--cor-info-100);
+  /* Séries dos gráficos (Chart.js lê estes tokens): ≥ 3:1 sobre a superfície */
+  --cor-grafico-1: var(--cor-primaria-500);
+  --cor-grafico-2: var(--cor-info-500);
+  --cor-grafico-3: var(--cor-secundaria-500);
+  --cor-grafico-4: var(--cor-alerta-700);
   /* Ícones em SVG embutido: a cor do traço muda com o tema */
   --icone-valido: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='%230b6e4f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --icone-busca: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5' fill='none' stroke='%234a5a55' stroke-width='2'/%3E%3Cpath d='M13 13l4.5 4.5' stroke='%234a5a55' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -136,4 +141,91 @@
    *   xl  = 75rem  (1200 px) desktops
    *   xxl = 90rem  (1440 px) telas panorâmicas
    */
+}
+
+/* ==========================================================
+   TEMA ESCURO
+   Vale quando a pessoa escolhe "Escuro" na Minha área (data-tema="escuro")
+   ou quando o sistema está no modo escuro e ela não escolheu "Claro".
+   O bloco aparece duas vezes porque o CSS não permite juntar um seletor
+   de atributo e uma media query na mesma regra.
+   ========================================================== */
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --cor-fundo: #0f1916;
+  --cor-superficie: #17231f;
+  --cor-superficie-suave: #1c3029;
+  --cor-superficie-alternada: #132019;
+  --cor-texto: #e6efe9;          /* 14,6:1 sobre o fundo */
+  --cor-texto-suave: #b3c2bb;    /* 9,1:1 */
+  --cor-titulo: #8edbb7;
+  --cor-link: #74d3a9;
+  --cor-link-hover: #a8ecca;
+  --cor-acento: #74d3a9;
+  --cor-borda: #34483f;
+  --cor-borda-campo: #8a9e95;    /* 5,8:1 sobre a superfície */
+  --cor-acao-texto: #ffa36b;
+  --cor-acao-suave: #3b2618;
+  --cor-foco: #ffb07c;
+  --cor-progresso: #ffa36b;
+  --cor-progresso-concluido: #74d3a9;
+  --cor-erro: #ff7b6e;
+  --cor-erro-texto: #ff9d93;
+  --cor-erro-suave: #3d1b18;
+  --cor-alerta: #f0b43c;
+  --cor-alerta-texto: #f5c96e;
+  --cor-alerta-suave: #352a10;
+  --cor-info: #7fb2f5;
+  --cor-info-texto: #a0c6f8;
+  --cor-info-suave: #15263c;
+  --cor-grafico-1: #4cc38a;
+  --cor-grafico-2: #6aa5f2;
+  --cor-grafico-3: #f08a4b;
+  --cor-grafico-4: #d9a23a;
+  --sombra-1: 0 2px 8px rgba(0, 0, 0, 0.45);
+  --sombra-2: 0 12px 28px rgba(0, 0, 0, 0.6);
+  --sombra-fundo-modal: rgba(0, 0, 0, 0.7);
+  --icone-valido: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='%2374d3a9' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --icone-busca: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5' fill='none' stroke='%23b3c2bb' stroke-width='2'/%3E%3Cpath d='M13 13l4.5 4.5' stroke='%23b3c2bb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    color-scheme: dark;
+    --cor-fundo: #0f1916;
+    --cor-superficie: #17231f;
+    --cor-superficie-suave: #1c3029;
+    --cor-superficie-alternada: #132019;
+    --cor-texto: #e6efe9;
+    --cor-texto-suave: #b3c2bb;
+    --cor-titulo: #8edbb7;
+    --cor-link: #74d3a9;
+    --cor-link-hover: #a8ecca;
+    --cor-acento: #74d3a9;
+    --cor-borda: #34483f;
+    --cor-borda-campo: #8a9e95;
+    --cor-acao-texto: #ffa36b;
+    --cor-acao-suave: #3b2618;
+    --cor-foco: #ffb07c;
+    --cor-progresso: #ffa36b;
+    --cor-progresso-concluido: #74d3a9;
+    --cor-erro: #ff7b6e;
+    --cor-erro-texto: #ff9d93;
+    --cor-erro-suave: #3d1b18;
+    --cor-alerta: #f0b43c;
+    --cor-alerta-texto: #f5c96e;
+    --cor-alerta-suave: #352a10;
+    --cor-info: #7fb2f5;
+    --cor-info-texto: #a0c6f8;
+    --cor-info-suave: #15263c;
+    --cor-grafico-1: #4cc38a;
+    --cor-grafico-2: #6aa5f2;
+    --cor-grafico-3: #f08a4b;
+    --cor-grafico-4: #d9a23a;
+    --sombra-1: 0 2px 8px rgba(0, 0, 0, 0.45);
+    --sombra-2: 0 12px 28px rgba(0, 0, 0, 0.6);
+    --sombra-fundo-modal: rgba(0, 0, 0, 0.7);
+    --icone-valido: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10.5l4 4 8-9' fill='none' stroke='%2374d3a9' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --icone-busca: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='8.5' cy='8.5' r='5.5' fill='none' stroke='%23b3c2bb' stroke-width='2'/%3E%3Cpath d='M13 13l4.5 4.5' stroke='%23b3c2bb' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
 }
