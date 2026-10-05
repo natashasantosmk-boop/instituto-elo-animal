@@ -581,6 +581,7 @@ html:not(.js) .submenu__botao {
 
 .numeros strong {
   font-size: var(--fonte-tamanho-5);
+  font-variant-numeric: tabular-nums; /* dígitos de largura igual: o número não "dança" ao contar */
   line-height: var(--altura-linha-titulo);
   color: var(--cor-acento);
 }
