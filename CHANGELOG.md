@@ -7,6 +7,8 @@ tem uma tag no Git e uma release no GitHub.
 
 ## [Não lançado]
 
+## [4.0.0] – 2026-10-06
+
 Experiência Prática IV: versionamento, acessibilidade, otimização e deploy.
 
 ### Mudanças incompatíveis
@@ -101,7 +103,8 @@ Experiência Prática I: primeira versão do site.
 - Formulário de cadastro com validação nativa, máscaras e mensagens em JavaScript.
 - Imagens em SVG criadas para o projeto e folha de estilo responsiva.
 
-[Não lançado]: https://github.com/natashasantosmk-boop/instituto-elo-animal/compare/v3.0.1...develop
+[Não lançado]: https://github.com/natashasantosmk-boop/instituto-elo-animal/compare/v4.0.0...develop
+[4.0.0]: https://github.com/natashasantosmk-boop/instituto-elo-animal/compare/v3.0.1...v4.0.0
 [3.0.1]: https://github.com/natashasantosmk-boop/instituto-elo-animal/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/natashasantosmk-boop/instituto-elo-animal/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/natashasantosmk-boop/instituto-elo-animal/compare/v1.0.0...v2.0.0
