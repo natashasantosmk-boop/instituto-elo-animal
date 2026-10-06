@@ -1,0 +1,44 @@
+# Verificação automática de cada pull request (e de cada push na develop):
+# testes de unidade, build de produção e testes de ponta a ponta e de
+# acessibilidade no Chromium (desktop e celular), no código-fonte e no dist/.
+# Pull requests para main e develop só são mesclados com este job verde.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Testes de unidade
+        run: npm test
+      - name: Build de produção (quando o projeto já tem o script)
+        run: npm run build --if-present
+      - name: Instala o Chromium do Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Testes de ponta a ponta e de acessibilidade (código-fonte)
+        run: npm run test:e2e
+      - name: Os mesmos testes na versão de produção (dist/)
+        if: hashFiles('scripts/build.mjs') != ''
+        run: npx playwright test
+        env:
+          ALVO: dist
+      - name: Relatório dos testes (se algo falhar)
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: relatorio-playwright
+          path: test-results/
+          retention-days: 7

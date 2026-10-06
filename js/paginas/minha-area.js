@@ -22,8 +22,9 @@ const { CHAVES } = armazenamento;
 const TIPOS = { voluntario: 'Voluntariado', doador: 'Doação', ambos: 'Voluntariado e doação' };
 const FREQUENCIAS = { mensal: 'mensal', unica: 'única' };
 const ROTULOS = {
-  fonte: { padrao: 'padrão', grande: 'grande', maior: 'maior' },
-  movimento: { padrao: 'ligadas', reduzido: 'reduzidas' },
+  tema: { automatico: 'tema automático', claro: 'tema claro', escuro: 'tema escuro' },
+  fonte: { padrao: 'texto padrão', grande: 'texto grande', maior: 'texto maior' },
+  movimento: { padrao: 'animações ligadas', reduzido: 'animações reduzidas' },
 };
 
 /** Inscrições válidas (um dado editado à mão no navegador não quebra a tela). */
@@ -122,7 +123,7 @@ export function montar({ raiz, sinal }) {
   // Preferências: valem na hora (evento change) e ficam salvas
   formPreferencias.addEventListener('change', (evento) => {
     const { name, value } = evento.target;
-    if (salvarPreferencia(name, value)) mostrarToast(`Preferência salva: ${name === 'fonte' ? 'texto' : 'animações'} ${ROTULOS[name][value]}.`);
+    if (salvarPreferencia(name, value)) mostrarToast(`Preferência salva: ${ROTULOS[name][value]}.`);
     else mostrarToast('A preferência foi aplicada, mas não pôde ser salva neste navegador.');
   }, opcoes);
 

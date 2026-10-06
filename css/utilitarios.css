@@ -33,7 +33,7 @@ html:not(.js) .so-com-js {
 }
 
 .texto-suave {
-  color: var(--cor-neutra-600) !important;
+  color: var(--cor-texto-suave) !important;
 }
 
 /* Espaçamentos pontuais, sempre com os tokens da escala */

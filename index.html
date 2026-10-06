@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Instituto Elo Animal: ONG de proteção animal e Saúde Única que oferece castração gratuita, clínica veterinária social, educação e adoção responsável.">
   <title>Instituto Elo Animal | Cuidar dos animais é cuidar da comunidade</title>
+  <!-- Temas claro e escuro: o navegador já pinta o fundo certo antes do CSS chegar -->
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#17231f" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="imagens/logo-elo-animal.svg" type="image/svg+xml">
   <link rel="icon" href="imagens/icones/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="imagens/icones/apple-touch-icon.png">
@@ -15,7 +19,7 @@
   <link rel="stylesheet" href="css/componentes.css">
   <link rel="stylesheet" href="css/utilitarios.css">
   <!-- Antes da primeira pintura: marca que há JavaScript e aplica as preferências salvas
-       (tamanho do texto e animações), para a tela não "piscar" com o visual padrão -->
+       (tema, tamanho do texto e animações), para a tela não "piscar" com o visual padrão -->
   <script>
     (function () {
       var raiz = document.documentElement;
@@ -23,6 +27,7 @@
       try {
         var salvo = JSON.parse(localStorage.getItem('eloAnimal:preferencias'));
         var preferencias = (salvo && salvo.valor) || {};
+        if (preferencias.tema === 'claro' || preferencias.tema === 'escuro') raiz.dataset.tema = preferencias.tema;
         if (preferencias.fonte === 'grande' || preferencias.fonte === 'maior') raiz.dataset.fonte = preferencias.fonte;
         if (preferencias.movimento === 'reduzido') raiz.dataset.movimento = 'reduzido';
       } catch (erro) { /* sem acesso ao armazenamento: segue com o padrão */ }
@@ -111,10 +116,11 @@
           <li><a href="#/projetos">Projetos</a></li>
           <li><a href="#/transparencia">Transparência</a></li>
           <li><a href="#/minha-area">Minha área e privacidade</a></li>
+          <li><a href="#/acessibilidade" data-rota="/acessibilidade">Acessibilidade</a></li>
         </ul>
       </nav>
     </div>
-    <p class="container rodape__aviso"><small>&copy; 2026 Instituto Elo Animal. ONG fictícia criada para fins acadêmicos (Experiências Práticas I, II e III – Desenvolvimento Front-end para Web). Dados de contato ilustrativos.</small></p>
+    <p class="container rodape__aviso"><small>&copy; 2026 Instituto Elo Animal. ONG fictícia criada para fins acadêmicos (Experiências Práticas I a IV – Desenvolvimento Front-end para Web). Dados de contato ilustrativos.</small></p>
   </footer>
 
   <!-- Notificações toast: role="status" faz o leitor de tela anunciar cada aviso -->

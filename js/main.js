@@ -24,6 +24,7 @@ const rotas = [
   { caminho: '/transparencia', view: 'transparencia', titulo: 'Transparência', controlador: () => import('./paginas/transparencia.js') },
   { caminho: '/cadastro', view: 'cadastro', titulo: 'Cadastre-se', controlador: () => import('./paginas/cadastro.js') },
   { caminho: '/minha-area', view: 'minha-area', titulo: 'Minha área', controlador: () => import('./paginas/minha-area.js') },
+  { caminho: '/acessibilidade', view: 'acessibilidade', titulo: 'Acessibilidade' }, // conteúdo estático, sem controlador
 ];
 
 const rotaNaoEncontrada = { view: 'nao-encontrada', titulo: 'Página não encontrada' };
