@@ -1,7 +1,14 @@
 {
   "name": "instituto-elo-animal",
   "version": "3.0.1",
-  "description": "SPA do Instituto Elo Animal – Experiência Prática III de Desenvolvimento Front-end para Web",
+  "description": "SPA do Instituto Elo Animal – Experiências Práticas I a IV de Desenvolvimento Front-end para Web",
+  "author": "Natasha Natividade dos Santos",
+  "license": "MIT",
+  "homepage": "https://natashasantosmk-boop.github.io/instituto-elo-animal/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natashasantosmk-boop/instituto-elo-animal.git"
+  },
   "private": true,
   "type": "module",
   "engines": {
@@ -13,7 +20,8 @@
     "test:e2e": "playwright test",
     "test:a11y": "playwright test testes/e2e/acessibilidade.spec.js",
     "build": "node scripts/build.mjs",
-    "preview": "serve -l 5600 dist -c ../serve.json"
+    "preview": "serve -l 5600 dist -c ../serve.json",
+    "hooks": "git config core.hooksPath .githooks"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
