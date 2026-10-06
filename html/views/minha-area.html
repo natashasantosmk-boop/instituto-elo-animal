@@ -44,6 +44,24 @@
     <h2 id="titulo-preferencias">Preferências de exibição</h2>
     <form class="preferencias cartao" data-preferencias>
       <fieldset class="subgrupo">
+        <legend>Tema de cores</legend>
+        <div class="opcoes">
+          <div class="opcao">
+            <input type="radio" id="tema-automatico" name="tema" value="automatico" aria-describedby="dica-tema">
+            <label for="tema-automatico">Automático</label>
+          </div>
+          <div class="opcao">
+            <input type="radio" id="tema-claro" name="tema" value="claro" aria-describedby="dica-tema">
+            <label for="tema-claro">Claro</label>
+          </div>
+          <div class="opcao">
+            <input type="radio" id="tema-escuro" name="tema" value="escuro" aria-describedby="dica-tema">
+            <label for="tema-escuro">Escuro</label>
+          </div>
+        </div>
+        <p id="dica-tema" class="dica mb-0">No automático, o site segue o modo claro ou escuro do seu aparelho.</p>
+      </fieldset>
+      <fieldset class="subgrupo">
         <legend>Tamanho do texto</legend>
         <div class="opcoes">
           <div class="opcao">

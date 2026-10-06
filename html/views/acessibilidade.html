@@ -1,0 +1,105 @@
+<!-- View: Acessibilidade (rota #/acessibilidade) – sem controlador: conteúdo estático
+     Declaração de acessibilidade: meta, recursos, como personalizar, como testamos e limites conhecidos. -->
+
+<section class="cabecalho-pagina" aria-labelledby="titulo-pagina">
+  <div class="container">
+    <nav class="migalhas" aria-label="Trilha de navegação">
+      <ol>
+        <li><a href="#/">Início</a></li>
+        <li><span aria-current="page">Acessibilidade</span></li>
+      </ol>
+    </nav>
+    <h1 id="titulo-pagina">Acessibilidade</h1>
+    <p class="secao__intro">Queremos que qualquer pessoa consiga conhecer os projetos, doar e se cadastrar, com ou sem deficiência e em qualquer aparelho. Esta página explica o que o site oferece, como foi testado e o que ainda falta melhorar.</p>
+  </div>
+</section>
+
+<div class="container largura-leitura">
+  <section class="secao secao--compacta" aria-labelledby="titulo-meta">
+    <h2 id="titulo-meta">Nossa meta</h2>
+    <p>O site segue as <strong>Diretrizes de Acessibilidade para Conteúdo Web (WCAG) 2.1, nível AA</strong>, do W3C, referência também da Lei Brasileira de Inclusão (Lei 13.146/2015, art. 63). Consideramos o site <strong>parcialmente conforme</strong>: os critérios do nível AA foram verificados nas páginas e nos estados descritos abaixo, mas o site ainda não foi avaliado por pessoas que usam tecnologias assistivas no dia a dia.</p>
+    <p class="dica">Última revisão: <time datetime="2026-10-02">2 de outubro de 2026</time> (versão 4.0.0).</p>
+  </section>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-personalizar">
+    <h2 id="titulo-personalizar">Como deixar o site do seu jeito</h2>
+    <ul>
+      <li><strong>Tema de cores:</strong> claro, escuro ou automático (segue o modo do seu aparelho).</li>
+      <li><strong>Tamanho do texto:</strong> padrão, grande (18 px) ou maior (20 px); o zoom do navegador até 400% também funciona, sem rolagem lateral.</li>
+      <li><strong>Animações:</strong> ligadas ou reduzidas. Se o aparelho já pede menos movimento, o site respeita a configuração.</li>
+      <li><strong>Contraste reforçado:</strong> quem ativa "mais contraste" no sistema recebe textos de apoio e bordas mais fortes; o modo de alto contraste do Windows também é suportado.</li>
+    </ul>
+    <p><a class="botao botao--contorno" href="#/minha-area?secao=titulo-preferencias">Ajustar minhas preferências</a></p>
+  </section>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-teclado">
+    <h2 id="titulo-teclado">Navegação pelo teclado</h2>
+    <p>Todas as funções podem ser usadas sem mouse, e o elemento em foco sempre tem um contorno visível.</p>
+    <div class="tabela-rolagem" role="region" aria-labelledby="legenda-teclado" tabindex="0">
+      <table class="tabela">
+        <caption id="legenda-teclado">Teclas usadas no site</caption>
+        <thead>
+          <tr>
+            <th scope="col">Tecla</th>
+            <th scope="col">O que faz</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>Tab</kbd> e <kbd>Shift</kbd> + <kbd>Tab</kbd></td>
+            <td>Avança e volta entre links, botões e campos. O primeiro <kbd>Tab</kbd> mostra o atalho "Pular para o conteúdo principal".</td>
+          </tr>
+          <tr>
+            <td><kbd>Enter</kbd> ou <kbd>Espaço</kbd></td>
+            <td>Abre links, aciona botões, abre o menu, o submenu Projetos e as perguntas frequentes.</td>
+          </tr>
+          <tr>
+            <td>Setas</td>
+            <td>Escolhem a opção dentro de um grupo (categorias da busca, tema, tamanho do texto) e mudam o valor do simulador de doação.</td>
+          </tr>
+          <tr>
+            <td><kbd>Esc</kbd></td>
+            <td>Fecha o menu, o submenu e as janelas de confirmação, devolvendo o foco ao botão que as abriu.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-leitores">
+    <h2 id="titulo-leitores">Leitores de tela</h2>
+    <ul>
+      <li>As páginas têm regiões nomeadas (cabeçalho, navegação, conteúdo, rodapé) e títulos em ordem, para pular direto ao assunto.</li>
+      <li>Ao trocar de página, o título da aba muda e o foco vai para o título principal, que é lido em seguida.</li>
+      <li>Resultados da busca, avisos temporários, rascunho salvo e erros do formulário são anunciados sem tirar você do lugar.</li>
+      <li>Os gráficos da Transparência têm descrição completa e tabelas com os mesmos números.</li>
+      <li>Os números animados do início são lidos já com o valor final.</li>
+    </ul>
+  </section>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-testes">
+    <h2 id="titulo-testes">Como testamos</h2>
+    <ul>
+      <li>Verificação automática com o <strong>axe-core</strong> (regras WCAG 2.1 AA) em todas as páginas e estados (formulário com erros, janelas abertas, menu do celular), nos temas claro e escuro.</li>
+      <li>Roteiro de teclado automatizado: ordem do foco, foco sempre visível, atalho para o conteúdo, menu e janelas sem armadilha de foco.</li>
+      <li>Contraste de todas as combinações de cores do design system calculado por script: texto com 4,5:1 ou mais e bordas, ícones e foco com 3:1 ou mais.</li>
+      <li>Telas de 320 a 1920 px, zoom de 200% e 400%, espaçamento de texto aumentado e emulação do alto contraste do Windows.</li>
+      <li>Validador de HTML do W3C e leitura da árvore de acessibilidade do navegador (o que o leitor de tela recebe).</li>
+    </ul>
+  </section>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-limites">
+    <h2 id="titulo-limites">Limitações conhecidas</h2>
+    <ul>
+      <li>Os gráficos não são navegáveis ponto a ponto pelo teclado; os dados estão nas tabelas logo abaixo deles.</li>
+      <li>As ilustrações dos projetos têm descrição, mas não há versão em Libras dos textos.</li>
+      <li>Ainda não fizemos testes com pessoas usuárias de leitores de tela (NVDA, VoiceOver, TalkBack).</li>
+    </ul>
+  </section>
+
+  <section class="secao secao--compacta" aria-labelledby="titulo-contato-acessibilidade">
+    <h2 id="titulo-contato-acessibilidade">Encontrou uma barreira?</h2>
+    <p>Conte para a gente o que aconteceu, em qual página e com qual aparelho ou tecnologia assistiva. Respondemos em até 5 dias úteis.</p>
+    <p><strong>E-mail:</strong> <a href="mailto:contato@institutoeloanimal.org.br?subject=Acessibilidade%20do%20site">contato@institutoeloanimal.org.br</a> (assunto: Acessibilidade do site)</p>
+  </section>
+</div>

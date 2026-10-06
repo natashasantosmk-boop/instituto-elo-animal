@@ -7,9 +7,11 @@
   "scripts": {
     "start": "npx --yes serve -l 5500 .",
     "test": "node --test \"testes/unidade/*.test.js\"",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test testes/e2e/acessibilidade.spec.js"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.56.0"
   }
 }

@@ -3,7 +3,8 @@
  * Gráficos com a biblioteca externa Chart.js (rosca e barras).
  *  - A biblioteca é baixada só quando esta página abre (core/bibliotecas.js),
  *    da CDN com SRI ou, se falhar, da cópia local em js/vendor.
- *  - As cores vêm dos tokens do design system (variáveis CSS).
+ *  - As cores vêm dos tokens semânticos do design system (variáveis CSS):
+ *    ao trocar o tema (claro/escuro), os gráficos são redesenhados.
  *  - Cada gráfico tem tabela com os mesmos dados e aria-label com o resumo.
  *  - Ao sair da página, os gráficos são destruídos (chart.destroy()) para
  *    liberar memória e os ouvintes que o Chart.js coloca na janela.
@@ -46,8 +47,8 @@ function criarGraficoDeRosca(Chart, canvas) {
       labels: itens.map((item) => item.rotulo),
       datasets: [{
         data: itens.map((item) => item.valor),
-        backgroundColor: [token('--cor-primaria-500'), token('--cor-secundaria-500'), token('--cor-info-500'), token('--cor-alerta-700')],
-        borderColor: token('--cor-branca'),
+        backgroundColor: [token('--cor-grafico-1'), token('--cor-grafico-3'), token('--cor-grafico-2'), token('--cor-grafico-4')],
+        borderColor: token('--cor-superficie'),
         borderWidth: 3,
       }],
     },
@@ -74,9 +75,9 @@ function criarGraficoDeBarras(Chart, canvas) {
     data: {
       labels: historico.map((ano) => String(ano.ano)),
       datasets: [
-        { label: 'Castrações', data: historico.map((ano) => ano.castracoes), backgroundColor: token('--cor-primaria-500') },
-        { label: 'Atendimentos na clínica', data: historico.map((ano) => ano.atendimentos), backgroundColor: token('--cor-info-500') },
-        { label: 'Adoções', data: historico.map((ano) => ano.adocoes), backgroundColor: token('--cor-secundaria-500') },
+        { label: 'Castrações', data: historico.map((ano) => ano.castracoes), backgroundColor: token('--cor-grafico-1') },
+        { label: 'Atendimentos na clínica', data: historico.map((ano) => ano.atendimentos), backgroundColor: token('--cor-grafico-2') },
+        { label: 'Adoções', data: historico.map((ano) => ano.adocoes), backgroundColor: token('--cor-grafico-3') },
       ],
     },
     options: {
@@ -109,18 +110,21 @@ async function desenharGraficos(raiz, sinal, graficos) {
   if (sinal.aborted) return; // a pessoa saiu da página enquanto a biblioteca baixava
 
   status.textContent = '';
-  Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
-  Chart.defaults.font.size = tamanhoDaFonte();
-  Chart.defaults.color = token('--cor-neutra-900');
 
-  graficos.push(criarGraficoDeRosca(Chart, $('[data-grafico-aplicacao]', raiz)));
-  graficos.push(criarGraficoDeBarras(Chart, $('[data-grafico-historico]', raiz)));
-
-  // Mudou o tamanho do texto na Minha área (ou em outra aba): ajusta os gráficos
-  document.addEventListener('preferencias:alteradas', () => {
+  // Desenha (ou redesenha) com as cores e o tamanho de texto que estão valendo agora
+  const desenhar = () => {
+    graficos.splice(0).forEach((grafico) => grafico.destroy());
+    Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
     Chart.defaults.font.size = tamanhoDaFonte();
-    graficos.forEach((grafico) => grafico.update());
-  }, { signal: sinal });
+    Chart.defaults.color = token('--cor-texto');       // legendas e eixos
+    Chart.defaults.borderColor = token('--cor-borda'); // linhas de grade
+    graficos.push(criarGraficoDeRosca(Chart, $('[data-grafico-aplicacao]', raiz)));
+    graficos.push(criarGraficoDeBarras(Chart, $('[data-grafico-historico]', raiz)));
+  };
+  desenhar();
+
+  // Mudou o tema ou o tamanho do texto (Minha área, outra aba ou o próprio sistema)
+  document.addEventListener('preferencias:alteradas', desenhar, { signal: sinal });
 }
 
 export function montar({ raiz, sinal }) {

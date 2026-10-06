@@ -41,7 +41,8 @@ function prepararIndicadores(lista, sinal) {
   const observador = new IntersectionObserver((entradas) => {
     if (!entradas.some((entrada) => entrada.isIntersecting)) return;
     observador.disconnect(); // anima uma vez só
-    lista.querySelectorAll('data').forEach((dado) => animarNumero(dado, Number(dado.value), sinal));
+    // Anima só a cópia visual (aria-hidden): o leitor de tela lê o valor final, nunca "0" ou um número pela metade
+    lista.querySelectorAll('data').forEach((dado) => animarNumero($('[data-animado]', dado), Number(dado.value), sinal));
   }, { threshold: 0.4 });
   observador.observe(lista);
   sinal.addEventListener('abort', () => observador.disconnect());

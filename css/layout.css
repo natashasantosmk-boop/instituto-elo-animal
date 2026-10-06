@@ -40,19 +40,19 @@ body {
 }
 
 .secao--suave {
-  background-color: var(--cor-primaria-100);
+  background-color: var(--cor-superficie-suave);
 }
 
 .secao__intro {
   max-width: 48rem;
   font-size: var(--fonte-tamanho-3);
-  color: var(--cor-neutra-600);
+  color: var(--cor-texto-suave);
 }
 
 /* ---------- Página inicial: área de destaque (hero) ---------- */
 .destaque {
   padding-block: var(--espaco-6);
-  background: linear-gradient(135deg, var(--cor-primaria-100) 0%, var(--cor-secundaria-100) 100%);
+  background: linear-gradient(135deg, var(--cor-superficie-suave) 0%, var(--cor-acao-suave) 100%);
 }
 
 .destaque__grade {
@@ -68,7 +68,7 @@ body {
 /* ---------- Cabeçalho das páginas internas ---------- */
 .cabecalho-pagina {
   padding-block: var(--espaco-5);
-  background: linear-gradient(135deg, var(--cor-primaria-100) 0%, var(--cor-secundaria-100) 100%);
+  background: linear-gradient(135deg, var(--cor-superficie-suave) 0%, var(--cor-acao-suave) 100%);
 }
 
 /* ---------- Projetos: título, figura e texto em zigue-zague ---------- */
