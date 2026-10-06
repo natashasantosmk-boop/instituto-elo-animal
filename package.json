@@ -4,14 +4,26 @@
   "description": "SPA do Instituto Elo Animal – Experiência Prática III de Desenvolvimento Front-end para Web",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "start": "npx --yes serve -l 5500 .",
+    "start": "serve -l 5500 .",
     "test": "node --test \"testes/unidade/*.test.js\"",
     "test:e2e": "playwright test",
-    "test:a11y": "playwright test testes/e2e/acessibilidade.spec.js"
+    "test:a11y": "playwright test testes/e2e/acessibilidade.spec.js",
+    "build": "node scripts/build.mjs",
+    "preview": "serve -l 5600 dist -c ../serve.json"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@playwright/test": "^1.56.0"
+    "@playwright/test": "1.56.0",
+    "chart.js": "4.5.1",
+    "esbuild": "^0.28.2",
+    "html-minifier-terser": "^7.2.0",
+    "lightningcss": "^1.33.0",
+    "serve": "^14.2.6",
+    "sharp": "^0.35.5",
+    "svgo": "^4.1.0"
   }
 }

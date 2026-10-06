@@ -87,8 +87,14 @@ body {
 }
 
 /* ---------- SPA: o main ocupa a altura livre e guarda as views ---------- */
+/* min-height reserva a altura da tela para o conteúdo: antes da primeira view
+   chegar, o rodapé aparecia logo abaixo do "Carregando..." e depois era empurrado
+   para baixo (deslocamento de layout, CLS de 0,41 no Lighthouse). Com a reserva,
+   o rodapé já nasce fora da tela e não "pula". */
 .conteudo {
   min-width: 0;
+  min-height: 100vh;
+  min-height: 100svh; /* altura visível do celular, sem a barra de endereço */
 }
 
 /* ---------- Cadastro: formulário + coluna lateral ---------- */
